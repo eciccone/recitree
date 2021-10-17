@@ -3,11 +3,6 @@
 ### Cloning repo
 Open intellij and create a new project from version control. Enter `git@github.com:eciccone/recitree.git` into the URL field and click clone.
 
-Once cloned, to simplify things we will all work on the same branch. Execute the following command.
-```bash
-git branch -M main
-```
-
 ### Commiting to local repo
 Once satisfied with your edits, add the changed files to the stage (make sure to save the files, otherwise changes will not register).
 ```bash
@@ -31,7 +26,7 @@ This essentially saves a new version of the file into the version control system
 To push your changes to our master repo, hosted on github, execute the following command:
 
 ```bash
-git push -u origin main
+git push
 ```
 
 This will merge the changes of your local repository with the master repository hosted on github.
