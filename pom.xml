@@ -69,7 +69,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>edu.uis.recitree/edu.uis.recitree.HelloApplication</mainClass>
+                            <mainClass>edu.uis.recitree/edu.uis.recitree.App</mainClass>
                         </configuration>
                     </execution>
                 </executions>
