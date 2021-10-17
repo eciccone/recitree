@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 public interface IngredientDAO {
     // Create
-    Ingredient insertIngredient(String name);
+    Ingredient insertIngredient(Ingredient ingredient);
 
     // Read
     ArrayList<Ingredient> selectAllIngredients();
 
     // Read All
-    Ingredient selectIngredientByName(String name);
+    Ingredient selectIngredientByName(Ingredient ingredient);
 
     // Delete
     boolean deleteIngredient(int id);
