@@ -8,11 +8,14 @@ public interface IngredientDAO {
     // Create
     Ingredient insertIngredient(Ingredient ingredient);
 
-    // Read
+    // Read all
     ArrayList<Ingredient> selectAllIngredients();
 
-    // Read All
+    // Read
     Ingredient selectIngredientByName(Ingredient ingredient);
+
+    // read all unused ingredients
+    ArrayList<Ingredient> selectAllUnusedIngredients();
 
     // Delete
     boolean deleteIngredient(int id);
