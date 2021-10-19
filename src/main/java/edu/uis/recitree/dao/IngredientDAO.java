@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public interface IngredientDAO {
     Ingredient insertIngredient(Ingredient ingredient);
     ArrayList<Ingredient> selectAllIngredients();
-    Ingredient selectIngredientByName(Ingredient ingredient);
+    Ingredient selectIngredientByName(String name);
     ArrayList<Ingredient> selectAllUnusedIngredients();
     boolean deleteIngredient(int id);
 }
