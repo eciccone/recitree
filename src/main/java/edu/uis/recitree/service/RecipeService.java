@@ -11,7 +11,7 @@ public interface RecipeService {
     ArrayList<Recipe> readAllRecipes();
     ArrayList<Recipe> readAllFavoriteRecipes();
     ArrayList<Recipe> searchRecipesByName(String text);
-    Recipe updateRecipe(int id, String name, double servings, ArrayList<RecipeIngredient> ingredients, String instructions);
+    Recipe updateRecipe(int id, String name, double servings, ArrayList<RecipeIngredient> ingredients, String instructions, boolean favorite);
     boolean deleteRecipe(int id);
     boolean toggleFavoriteStatus(int id);
 }

@@ -6,5 +6,6 @@ import java.util.ArrayList;
 
 public interface IngredientService {
     ArrayList<Ingredient> readAllUnusedIngredients();
+    Ingredient getOrCreateIngredient(String name);
     boolean deleteIngredient(int id);
 }

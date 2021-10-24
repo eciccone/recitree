@@ -9,6 +9,7 @@ public interface RecipeDAO {
     Recipe insertRecipe(Recipe recipe);
     Recipe selectRecipe(int id);
     ArrayList<Recipe> selectAllRecipes();
+    ArrayList<Recipe> selectAllRecipesWhereNameContains(String text);
     ArrayList<Recipe> selectAllFavoriteRecipes();
     Recipe updateRecipe(Recipe recipe);
     boolean deleteRecipe(int id);
