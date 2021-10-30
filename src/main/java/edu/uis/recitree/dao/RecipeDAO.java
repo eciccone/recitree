@@ -13,4 +13,6 @@ public interface RecipeDAO {
     ArrayList<Recipe> selectAllFavoriteRecipes();
     Recipe updateRecipe(Recipe recipe);
     boolean deleteRecipe(int id);
+    boolean insertRecipeFavorite(int id);
+    boolean deleteRecipeFavorite(int id);
 }
