@@ -2,3 +2,4 @@
 target/
 recitree.iml
 recitree.db
+/recitree.db-journal
