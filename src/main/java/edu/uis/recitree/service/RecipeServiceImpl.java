@@ -2,10 +2,7 @@ package edu.uis.recitree.service;
 
 import edu.uis.recitree.dao.IngredientDAO;
 import edu.uis.recitree.dao.RecipeDAO;
-import edu.uis.recitree.exception.CreateRecipeException;
-import edu.uis.recitree.exception.DeleteRecipeException;
-import edu.uis.recitree.exception.InvalidIDException;
-import edu.uis.recitree.exception.ReadAllRecipesException;
+import edu.uis.recitree.exception.*;
 import edu.uis.recitree.model.Ingredient;
 import edu.uis.recitree.model.Recipe;
 import edu.uis.recitree.model.RecipeIngredient;
@@ -101,21 +98,40 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeDAO.selectAllRecipesWhereNameContains(text);
     }
 
+    /**
+     * Updates a recipe and updates it in the database. Before reconstructing the recipe it reuses previously created
+     * ingredients in the database for each ingredient in the recipe being updated.
+     *
+     * (requirement 4.5.1)
+     *
+     * @param id The id of the recipe being updated
+     * @param name The name of the recipe
+     * @param servings The recipe servings
+     * @param ingredients The recipe ingredients
+     * @param instructions The recipe instructions
+     * @param favorite The recipe's favorite status
+     * @return The recipe that was updated
+     * @throws UpdateRecipeException Thrown if there was a problem updating the recipe
+     */
     @Override
-    public Recipe updateRecipe(int id, String name, double servings, ArrayList<RecipeIngredient> ingredients, String instructions, boolean favorite) {
+    public Recipe updateRecipe(int id, String name, double servings, ArrayList<RecipeIngredient> ingredients, String instructions, boolean favorite) throws UpdateRecipeException {
 
         for (RecipeIngredient recIng : ingredients) {
-            Ingredient ing = ingredientDAO.selectIngredientByName(recIng.getIngredient().getName());
+            Ingredient ing = ingredientService.getOrCreateIngredient(recIng.getIngredient().getName());
 
             if (ing == null) {
-                ing = ingredientDAO.insertIngredient(recIng.getIngredient());
+                throw new UpdateRecipeException("error reusing ingredients");
             }
 
             recIng.setIngredient(ing);
         }
+        Recipe recipe = recipeDAO.updateRecipe(new Recipe(id, name, servings, ingredients, instructions, favorite));
 
-        Recipe recipe = new Recipe(id, name, servings, ingredients, instructions, favorite);
-        return recipeDAO.updateRecipe(recipe);
+        if (recipe == null) {
+            throw new UpdateRecipeException("error updating recipe");
+        }
+
+        return recipe;
     }
 
     /**
