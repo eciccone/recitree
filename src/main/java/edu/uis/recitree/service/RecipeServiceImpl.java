@@ -3,6 +3,8 @@ package edu.uis.recitree.service;
 import edu.uis.recitree.dao.IngredientDAO;
 import edu.uis.recitree.dao.RecipeDAO;
 import edu.uis.recitree.exception.CreateRecipeException;
+import edu.uis.recitree.exception.DeleteRecipeException;
+import edu.uis.recitree.exception.InvalidIDException;
 import edu.uis.recitree.exception.ReadAllRecipesException;
 import edu.uis.recitree.model.Ingredient;
 import edu.uis.recitree.model.Recipe;
@@ -116,12 +118,29 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeDAO.updateRecipe(recipe);
     }
 
+    /**
+     * Deletes a recipe by id.
+     *
+     * (requirement 4.4.1)
+     *
+     * @param id The id of the recipe to be deleted
+     * @return Always returns true
+     * @throws InvalidIDException Thrown if an id is 0 or less
+     * @throws DeleteRecipeException Thrown if a recipe could not be deleted with the given id
+     */
     @Override
-    public boolean deleteRecipe(int id) {
-        if (id <= 0)
-            return false;
+    public boolean deleteRecipe(int id) throws InvalidIDException, DeleteRecipeException {
+        // id is invalid if its 0 or less
+        if (id <= 0) {
+            throw new InvalidIDException("id must be greater than zero");
+        }
 
-        return recipeDAO.deleteRecipe(id);
+        // attempt to delete recipe from database, if unsuccessful throw a error
+        if (!recipeDAO.deleteRecipe(id)) {
+            throw new DeleteRecipeException("error deleting recipe from database");
+        }
+
+        return true;
     }
 
     @Override
