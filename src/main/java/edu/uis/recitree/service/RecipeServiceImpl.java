@@ -2,6 +2,7 @@ package edu.uis.recitree.service;
 
 import edu.uis.recitree.dao.IngredientDAO;
 import edu.uis.recitree.dao.RecipeDAO;
+import edu.uis.recitree.exception.CreateRecipeException;
 import edu.uis.recitree.exception.ReadAllRecipesException;
 import edu.uis.recitree.model.Ingredient;
 import edu.uis.recitree.model.Recipe;
@@ -20,8 +21,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * Reuses previously created ingredients in the database for each ingredient in the recipe being created. It then
-     * constructs a recipe and inserts it into the database.
+     * Creates a recipes and inserts it into the database. Before constructing the recipe it reuses previously created
+     * ingredients in the database for each ingredient in the recipe being created.
      *
      * (requirement 4.3.1)
      *
@@ -29,25 +30,30 @@ public class RecipeServiceImpl implements RecipeService {
      * @param servings The amount of servings for the recipe being created
      * @param ingredients The ingredients of the recipe being created
      * @param instructions The instructions of the recipe being created
-     * @return If the recipe was created successfully returns the recipe, otherwise returns null
+     * @return The recipe that was created
+     * @throws CreateRecipeException Thrown if there was a problem creating the recipe
      */
     @Override
-    public Recipe createRecipe(String name, double servings, ArrayList<RecipeIngredient> ingredients, String instructions) {
+    public Recipe createRecipe(String name, double servings, ArrayList<RecipeIngredient> ingredients, String instructions) throws CreateRecipeException {
 
         for (RecipeIngredient recIng : ingredients) {
             Ingredient ing = ingredientService.getOrCreateIngredient(recIng.getIngredient().getName());
 
             // if ingredient could not be selected by name or created the operation cannot be completed
             if (ing == null) {
-                return null;
+                throw new CreateRecipeException("error reusing ingredients");
             }
 
             recIng.setIngredient(ing);
         }
 
-        Recipe recipe = new Recipe(name, servings, ingredients, instructions);
+        Recipe recipe = recipeDAO.insertRecipe(new Recipe(name, servings, ingredients, instructions));
 
-        return recipeDAO.insertRecipe(recipe);
+        if (recipe == null) {
+            throw new CreateRecipeException("error inserting recipe");
+        }
+
+        return recipe;
     }
 
     @Override
@@ -69,7 +75,7 @@ public class RecipeServiceImpl implements RecipeService {
         ArrayList<Recipe> recipes = recipeDAO.selectAllRecipes();
 
         if (recipes == null) {
-            throw new ReadAllRecipesException("problem fetching all recipes from the database");
+            throw new ReadAllRecipesException("error selecting all recipes from the database");
         }
 
         return recipes;
