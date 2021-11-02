@@ -2,6 +2,7 @@ package edu.uis.recitree.service;
 
 import edu.uis.recitree.dao.IngredientDAO;
 import edu.uis.recitree.dao.RecipeDAO;
+import edu.uis.recitree.exception.ReadAllRecipesException;
 import edu.uis.recitree.model.Ingredient;
 import edu.uis.recitree.model.Recipe;
 import edu.uis.recitree.model.RecipeIngredient;
@@ -57,9 +58,21 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeDAO.selectRecipe(id);
     }
 
+    /**
+     * Reads all the user created recipes.
+     *
+     * @return An ArrayList of all the user created recipes
+     * @throws ReadAllRecipesException Thrown if there is a problem selecting all the user created recipes from the database
+     */
     @Override
-    public ArrayList<Recipe> readAllRecipes() {
-        return recipeDAO.selectAllRecipes();
+    public ArrayList<Recipe> readAllRecipes() throws ReadAllRecipesException {
+        ArrayList<Recipe> recipes = recipeDAO.selectAllRecipes();
+
+        if (recipes == null) {
+            throw new ReadAllRecipesException("problem fetching all recipes from the database");
+        }
+
+        return recipes;
     }
 
     @Override
