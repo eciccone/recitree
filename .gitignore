@@ -3,3 +3,4 @@ target/
 recitree.iml
 recitree.db
 /recitree.db-journal
+/default-data.sql
