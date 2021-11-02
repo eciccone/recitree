@@ -13,6 +13,13 @@ public class IngredientServiceImpl implements IngredientService {
 
     }
 
+    /**
+     * Gets all the inactive ingredients
+     *
+     * (requirement 3.1.1)
+     *
+     * @return The list of inactive ingredients
+     */
     @Override
     public ArrayList<Ingredient> readAllUnusedIngredients() {
         return ingredientDAO.selectAllUnusedIngredients();
@@ -44,10 +51,24 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredient;
     }
 
+    /**
+     * Deletes an ingredient by id
+     *
+     * (requirement 3.2.1)
+     *
+     * @param id The id of the ingredient to be deleted
+     * @return If the ingredient is deleted successfully returns true, otherwise false
+     */
     @Override
     public boolean deleteIngredient(int id) {
         // if the id is invalid the operation cannot be completed
         if (id <= 0) {
+            return false;
+        }
+
+        // if the ingredient is null something went wrong
+        Ingredient ingredient = ingredientDAO.selectIngredientById(id);
+        if (ingredient == null) {
             return false;
         }
 
