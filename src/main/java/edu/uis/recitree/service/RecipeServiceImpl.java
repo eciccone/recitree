@@ -159,17 +159,28 @@ public class RecipeServiceImpl implements RecipeService {
         return true;
     }
 
+    /**
+     * Toggles a recipes favorite status.
+     *
+     * (requirement 4.6.1)
+     *
+     * @param id The id of the recipes favorite status to be toggled
+     * @return Always returns true
+     * @throws InvalidIDException Thrown if an id is 0 or less
+     * @throws ReadRecipeException Thrown if a recipe could not be selected with the given id
+     * @throws ToggleFavoriteStatusException Thrown if a recipes favorite status could not be updated
+     */
     @Override
-    public boolean toggleFavoriteStatus(int id) {
+    public boolean toggleFavoriteStatus(int id) throws InvalidIDException, ReadRecipeException, ToggleFavoriteStatusException {
         // id is invalid if its 0 or less
         if (id <= 0) {
-            return false;
+            throw new InvalidIDException("id must be greater than zero");
         }
 
         // make sure recipe exists
         Recipe recipe = recipeDAO.selectRecipe(id);
         if (recipe == null) {
-            return false;
+            throw new ReadRecipeException("error selecting recipe from the database");
         }
 
         // toggle favorite status and return if operation was successful
@@ -180,6 +191,10 @@ public class RecipeServiceImpl implements RecipeService {
             success = recipeDAO.insertRecipeFavorite(recipe.getId());
         }
 
-        return success;
+        if (!success) {
+            throw new ToggleFavoriteStatusException("error updating favorite status in the database");
+        }
+
+        return true;
     }
 }
