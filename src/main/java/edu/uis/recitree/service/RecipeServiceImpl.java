@@ -66,6 +66,8 @@ public class RecipeServiceImpl implements RecipeService {
     /**
      * Reads all the user created recipes.
      *
+     * (requirement 4.1.1)
+     *
      * @return An ArrayList of all the user created recipes
      * @throws ReadAllRecipesException Thrown if there is a problem selecting all the user created recipes from the database
      */
@@ -80,9 +82,23 @@ public class RecipeServiceImpl implements RecipeService {
         return recipes;
     }
 
+    /**
+     * Read all the favorited recipes.
+     *
+     * (requirement 4.7.1)
+     *
+     * @return An ArrayList of all the favorited recipes
+     * @throws ReadAllFavoritesException Thrown if there is a problem selecting all the favorited recipes from the database
+     */
     @Override
-    public ArrayList<Recipe> readAllFavoriteRecipes() {
-        return recipeDAO.selectAllFavoriteRecipes();
+    public ArrayList<Recipe> readAllFavoriteRecipes() throws ReadAllFavoritesException {
+        ArrayList<Recipe> recipes = recipeDAO.selectAllFavoriteRecipes();
+
+        if (recipes == null) {
+            throw new ReadAllFavoritesException("error selecting all favorites from the database");
+        }
+
+        return recipes;
     }
 
     @Override
