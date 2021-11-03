@@ -101,17 +101,34 @@ public class RecipeServiceImpl implements RecipeService {
         return recipes;
     }
 
+    /**
+     * Searches for a recipe by name given a specific text.
+     *
+     * (requirement 4.8.1)
+     *
+     * @param text The search text
+     * @return An ArrayList of recipes that contain the search text in their name
+     * @throws SearchRecipeException Thrown if there is a problem selecting the recipes from the database
+     */
     @Override
-    public ArrayList<Recipe> searchRecipesByName(String text) {
+    public ArrayList<Recipe> searchRecipesByName(String text) throws SearchRecipeException {
 
         text = text.trim();
 
+        ArrayList<Recipe> recipes;
+
         // search with no text, so just get all recipes
         if (text == null || text.equals("")) {
-            return recipeDAO.selectAllRecipes();
+            recipes = recipeDAO.selectAllRecipes();
+        } else {
+            recipes = recipeDAO.selectAllRecipesWhereNameContains(text);
         }
 
-        return recipeDAO.selectAllRecipesWhereNameContains(text);
+        if (recipes == null) {
+            throw new SearchRecipeException("error searching recipes with text: " + text);
+        }
+
+        return recipes;
     }
 
     /**

@@ -11,7 +11,7 @@ public interface RecipeService {
     Recipe readRecipe(int id);
     ArrayList<Recipe> readAllRecipes() throws ReadAllRecipesException;
     ArrayList<Recipe> readAllFavoriteRecipes() throws ReadAllFavoritesException;
-    ArrayList<Recipe> searchRecipesByName(String text);
+    ArrayList<Recipe> searchRecipesByName(String text) throws SearchRecipeException;
     Recipe updateRecipe(int id, String name, double servings, ArrayList<RecipeIngredient> ingredients, String instructions, boolean favorite) throws UpdateRecipeException;
     boolean deleteRecipe(int id) throws InvalidIDException, DeleteRecipeException;
     boolean toggleFavoriteStatus(int id) throws InvalidIDException, ReadRecipeException, ToggleFavoriteStatusException;
