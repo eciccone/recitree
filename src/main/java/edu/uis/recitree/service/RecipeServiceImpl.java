@@ -36,14 +36,12 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe createRecipe(String name, double servings, ArrayList<RecipeIngredient> ingredients, String instructions) throws CreateRecipeException {
 
         for (RecipeIngredient recIng : ingredients) {
-            Ingredient ing = ingredientService.getOrCreateIngredient(recIng.getIngredient().getName());
-
-            // if ingredient could not be selected by name or created the operation cannot be completed
-            if (ing == null) {
+            try {
+                Ingredient ing = ingredientService.getOrCreateIngredient(recIng.getIngredient().getName());
+                recIng.setIngredient(ing);
+            } catch (CreateIngredientException e) {
                 throw new CreateRecipeException("error reusing ingredients");
             }
-
-            recIng.setIngredient(ing);
         }
 
         Recipe recipe = recipeDAO.insertRecipe(new Recipe(name, servings, ingredients, instructions));
@@ -150,14 +148,14 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe updateRecipe(int id, String name, double servings, ArrayList<RecipeIngredient> ingredients, String instructions, boolean favorite) throws UpdateRecipeException {
 
         for (RecipeIngredient recIng : ingredients) {
-            Ingredient ing = ingredientService.getOrCreateIngredient(recIng.getIngredient().getName());
-
-            if (ing == null) {
+            try {
+                Ingredient ing = ingredientService.getOrCreateIngredient(recIng.getIngredient().getName());
+                recIng.setIngredient(ing);
+            } catch (CreateIngredientException e) {
                 throw new UpdateRecipeException("error reusing ingredients");
             }
-
-            recIng.setIngredient(ing);
         }
+
         Recipe recipe = recipeDAO.updateRecipe(new Recipe(id, name, servings, ingredients, instructions, favorite));
 
         if (recipe == null) {
