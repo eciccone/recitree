@@ -1,6 +1,7 @@
 package edu.uis.recitree.service;
 
 import edu.uis.recitree.dao.IngredientDAO;
+import edu.uis.recitree.exception.ReadAllIngredientsException;
 import edu.uis.recitree.model.Ingredient;
 
 import java.util.ArrayList;
@@ -14,15 +15,22 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     /**
-     * Gets all the inactive ingredients
+     * Gets all the inactive ingredients.
      *
      * (requirement 3.1.1)
      *
      * @return The list of inactive ingredients
+     * @exception ReadAllIngredientsException Thrown if there is a problem selecting ingredients from the database
      */
     @Override
-    public ArrayList<Ingredient> readAllUnusedIngredients() {
-        return ingredientDAO.selectAllUnusedIngredients();
+    public ArrayList<Ingredient> readAllUnusedIngredients() throws ReadAllIngredientsException {
+        ArrayList<Ingredient> ingredients = ingredientDAO.selectAllUnusedIngredients();
+
+        if (ingredients == null) {
+            throw new ReadAllIngredientsException("error selecting all the unused ingredients from the database");
+        }
+
+        return ingredients;
     }
 
     /**

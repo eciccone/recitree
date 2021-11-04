@@ -1,11 +1,12 @@
 package edu.uis.recitree.service;
 
+import edu.uis.recitree.exception.ReadAllIngredientsException;
 import edu.uis.recitree.model.Ingredient;
 
 import java.util.ArrayList;
 
 public interface IngredientService {
-    ArrayList<Ingredient> readAllUnusedIngredients();
+    ArrayList<Ingredient> readAllUnusedIngredients() throws ReadAllIngredientsException;
     Ingredient getOrCreateIngredient(String name);
     boolean deleteIngredient(int id);
 }
