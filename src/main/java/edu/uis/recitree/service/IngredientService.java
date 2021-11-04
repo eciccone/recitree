@@ -1,5 +1,6 @@
 package edu.uis.recitree.service;
 
+import edu.uis.recitree.exception.CreateIngredientException;
 import edu.uis.recitree.exception.DeleteIngredientException;
 import edu.uis.recitree.exception.InvalidIDException;
 import edu.uis.recitree.exception.ReadAllIngredientsException;
@@ -9,6 +10,6 @@ import java.util.ArrayList;
 
 public interface IngredientService {
     ArrayList<Ingredient> readAllUnusedIngredients() throws ReadAllIngredientsException;
-    Ingredient getOrCreateIngredient(String name);
+    Ingredient getOrCreateIngredient(String name) throws CreateIngredientException;
     boolean deleteIngredient(int id) throws InvalidIDException, DeleteIngredientException;
 }

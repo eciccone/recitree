@@ -1,6 +1,7 @@
 package edu.uis.recitree.service;
 
 import edu.uis.recitree.dao.IngredientDAO;
+import edu.uis.recitree.exception.CreateIngredientException;
 import edu.uis.recitree.exception.DeleteIngredientException;
 import edu.uis.recitree.exception.InvalidIDException;
 import edu.uis.recitree.exception.ReadAllIngredientsException;
@@ -42,9 +43,10 @@ public class IngredientServiceImpl implements IngredientService {
      *
      * @param name The name of the ingredient to select or create
      * @return The selected or created ingredient
+     * @exception CreateIngredientException Thrown if there is a problem inserting a new ingredient into the database
      */
     @Override
-    public Ingredient getOrCreateIngredient(String name) {
+    public Ingredient getOrCreateIngredient(String name) throws CreateIngredientException {
         Ingredient ingredient = ingredientDAO.selectIngredientByName(name);
 
         // if the ingredient does not already exist, create it
@@ -54,7 +56,7 @@ public class IngredientServiceImpl implements IngredientService {
 
             // if there was a problem creating ingredient, return null
             if (ingredient == null) {
-                return null;
+                throw new CreateIngredientException("problem insert new ingredient into the database");
             }
         }
 
