@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uis.recitree.controller.CreateRecipeController">
+    <children>
+        <TextField fx:id="recipeNameTextField" promptText="Recipe name" />
+        <TextField fx:id="recipeServingsTextField" promptText="Recipe servings" />
+      <TextArea fx:id="recipeDirectionsTextArea" prefHeight="96.0" prefWidth="619.0" promptText="Recipe Directions" />
+        <ListView fx:id="ingredientsListView" prefHeight="191.0" prefWidth="619.0" />
+        <HBox spacing="10.0">
+            <children>
+                <TextField fx:id="ingredientNameTextField" promptText="Ingredient name" />
+                <TextField fx:id="ingredientUnitTypeTextField" promptText="Unit type" />
+                <TextField fx:id="ingredientUnitAmountTextField" prefHeight="24.0" prefWidth="164.0" promptText="Unit amount" />
+                <Button mnemonicParsing="false" onAction="#addIngredientButtonClicked" text="Add" />
+                <Button mnemonicParsing="false" onAction="#removeIngredientButtonClicked" text="Remove" />
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </HBox>
+        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#createRecipeButtonClicked" text="Create Recipe" />
+                <Button mnemonicParsing="false" onAction="#cancelRecipeButtonClicked" text="Cancel" />
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </HBox>
+    </children>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+</VBox>
