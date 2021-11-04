@@ -6,4 +6,6 @@ module edu.uis.recitree {
 
     opens edu.uis.recitree to javafx.fxml;
     exports edu.uis.recitree;
+    exports edu.uis.recitree.controller;
+    opens edu.uis.recitree.controller to javafx.fxml;
 }

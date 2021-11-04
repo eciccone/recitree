@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uis.recitree.controller.LoadingScreenController">
+    <children>
+        <ImageView fitHeight="600.0" fitWidth="800.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@Recitree_Background.png" />
+            </image>
+        </ImageView>
+        <VBox alignment="CENTER" layoutX="83.0" layoutY="122.0" prefHeight="361.0" prefWidth="220.0">
+            <children>
+                <Label prefHeight="58.0" prefWidth="153.0" text="Recitree">
+                    <font>
+                        <Font name="Script MT Bold" size="48.0" />
+                    </font>
+                </Label>
+                <ImageView fitHeight="281.0" fitWidth="271.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Recitree_Icon.png" />
+                    </image>
+                </ImageView>
+                <Label opacity="0.42" text="(Press any key to continue)">
+                    <font>
+                        <Font size="10.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
