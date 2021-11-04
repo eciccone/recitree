@@ -1,6 +1,8 @@
 package edu.uis.recitree.service;
 
 import edu.uis.recitree.dao.IngredientDAO;
+import edu.uis.recitree.exception.DeleteIngredientException;
+import edu.uis.recitree.exception.InvalidIDException;
 import edu.uis.recitree.exception.ReadAllIngredientsException;
 import edu.uis.recitree.model.Ingredient;
 
@@ -66,20 +68,28 @@ public class IngredientServiceImpl implements IngredientService {
      *
      * @param id The id of the ingredient to be deleted
      * @return If the ingredient is deleted successfully returns true, otherwise false
+     * @exception InvalidIDException Thrown if an id is less than or equal to zero, or a ingredient cannot be found with the id
+     * @exception DeleteIngredientException Thrown if there is a problem deleting the ingredient from the database
      */
     @Override
-    public boolean deleteIngredient(int id) {
+    public boolean deleteIngredient(int id) throws InvalidIDException, DeleteIngredientException {
         // if the id is invalid the operation cannot be completed
         if (id <= 0) {
-            return false;
+            throw new InvalidIDException("id must be greater than zero");
         }
 
         // if the ingredient is null something went wrong
         Ingredient ingredient = ingredientDAO.selectIngredientById(id);
         if (ingredient == null) {
-            return false;
+            throw new InvalidIDException("ingredient not found with id: " + id);
         }
 
-        return ingredientDAO.deleteIngredient(id);
+        boolean success = ingredientDAO.deleteIngredient(id);
+
+        if (!success) {
+            throw new DeleteIngredientException("error while deleting ingredient from the database");
+        }
+
+        return true;
     }
 }
