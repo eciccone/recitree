@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public interface IngredientService {
     ArrayList<Ingredient> readAllUnusedIngredients() throws ReadAllIngredientsException;
+    ArrayList<Ingredient> readAllIngredients() throws ReadAllIngredientsException;
     Ingredient getOrCreateIngredient(String name) throws CreateIngredientException;
     boolean deleteIngredient(int id) throws InvalidIDException, DeleteIngredientException;
 }

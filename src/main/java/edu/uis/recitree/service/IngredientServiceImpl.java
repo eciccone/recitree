@@ -1,6 +1,7 @@
 package edu.uis.recitree.service;
 
 import edu.uis.recitree.dao.IngredientDAO;
+import edu.uis.recitree.dao.SQLiteIngredientDAO;
 import edu.uis.recitree.exception.CreateIngredientException;
 import edu.uis.recitree.exception.DeleteIngredientException;
 import edu.uis.recitree.exception.InvalidIDException;
@@ -14,7 +15,7 @@ public class IngredientServiceImpl implements IngredientService {
     private IngredientDAO ingredientDAO;
 
     public IngredientServiceImpl() {
-
+        ingredientDAO = new SQLiteIngredientDAO();
     }
 
     /**
@@ -31,6 +32,23 @@ public class IngredientServiceImpl implements IngredientService {
 
         if (ingredients == null) {
             throw new ReadAllIngredientsException("error selecting all the unused ingredients from the database");
+        }
+
+        return ingredients;
+    }
+
+    /**
+     * Gets all the ingredients.
+     *
+     * @return The list of ingredients
+     * @throws ReadAllIngredientsException Thrown if there is a problem selecting ingredients from the database
+     */
+    @Override
+    public ArrayList<Ingredient> readAllIngredients() throws ReadAllIngredientsException {
+        ArrayList<Ingredient> ingredients = ingredientDAO.selectAllIngredients();
+
+        if (ingredients == null) {
+            throw new ReadAllIngredientsException("error selecting all the ingredients from the database");
         }
 
         return ingredients;
