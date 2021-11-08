@@ -23,39 +23,7 @@ public class RecipeServiceImpl implements RecipeService {
         recipeDAO = new SQLiteRecipeDAO();
     }
 
-    public static void main(String[] args) {
-        RecipeService rs = new RecipeServiceImpl();
-
-        Ingredient i1 = new Ingredient("blue berries");
-        Ingredient i2 = new Ingredient("milk");
-
-        RecipeIngredient ri1 = new RecipeIngredient(i1, "cup", 1);
-        RecipeIngredient ri2 = new RecipeIngredient(i2, "cup", 1.5);
-
-        ArrayList<RecipeIngredient> ingredients = new ArrayList<>();
-        ingredients.add(ri1);
-        ingredients.add(ri2);
-
-
-        try {
-            rs.toggleFavoriteStatus(2);
-            for(Recipe recipe : rs.readAllFavoriteRecipes()) {
-                System.out.println("id: " + recipe.getId() + " name: " + recipe.getName() +
-                        " servings: " + recipe.getServings() + " ingredients: " + recipe.getIngredients() +
-                        " instructions: " + recipe.getInstructions() + " favorite: " + recipe.isFavorite());
-            }
-        } catch (ReadAllFavoritesException e) {
-            e.printStackTrace();
-        } catch (ToggleFavoriteStatusException e) {
-            e.printStackTrace();
-        } catch (InvalidIDException e) {
-            e.printStackTrace();
-        } catch (ReadRecipeException e) {
-            e.printStackTrace();
-        }
-    }
-
-        /**
+    /**
      * Creates a recipes and inserts it into the database. Before constructing the recipe it reuses previously created
      * ingredients in the database for each ingredient in the recipe being created.
      *
