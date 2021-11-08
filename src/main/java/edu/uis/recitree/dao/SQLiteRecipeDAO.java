@@ -341,10 +341,12 @@ public class SQLiteRecipeDAO implements RecipeDAO {
     public boolean deleteRecipe(int id) {
         String sql1 = "DELETE FROM recipe WHERE id = ?";
         String sql2 = "DELETE FROM recipe_ingredient WHERE recipe_id = ?";
+        String sql3 = "DELETE FROM favorite WHERE recipe_id = ?";
 
         try (Connection conn = sqlite.connect();
              PreparedStatement stmt1 = conn.prepareStatement(sql1);
-             PreparedStatement stmt2 = conn.prepareStatement(sql2)) {
+             PreparedStatement stmt2 = conn.prepareStatement(sql2);
+             PreparedStatement stmt3 = conn.prepareStatement(sql3)) {
 
             stmt1.setInt(1, id);
 
@@ -356,6 +358,9 @@ public class SQLiteRecipeDAO implements RecipeDAO {
 
             stmt2.setInt(1, id);
             stmt2.executeUpdate();
+
+            stmt3.setInt(1, id);
+            stmt3.executeUpdate();
 
             return true;
         } catch (SQLException e) {
