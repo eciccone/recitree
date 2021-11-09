@@ -116,6 +116,9 @@ public class UpdateRecipeController implements Initializable {
             e.printStackTrace();
         }
 
+        Button button = (Button) event.getSource();
+        Stage window = (Stage) button.getScene().getWindow();
+        window.close();
     }
 
     @Override

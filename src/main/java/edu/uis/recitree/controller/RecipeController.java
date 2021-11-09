@@ -1,13 +1,11 @@
 package edu.uis.recitree.controller;
 
 import edu.uis.recitree.App;
-import edu.uis.recitree.exception.DeleteRecipeException;
-import edu.uis.recitree.exception.InvalidIDException;
-import edu.uis.recitree.exception.ReadAllRecipesException;
-import edu.uis.recitree.model.Ingredient;
+import edu.uis.recitree.exception.*;
 import edu.uis.recitree.model.Recipe;
 import edu.uis.recitree.model.RecipeIngredient;
 import edu.uis.recitree.service.RecipeServiceImpl;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,12 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -29,7 +23,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class RecipeController {
+public class RecipeController implements Initializable {
 
     @FXML
     private ListView<Recipe> recipesListView;
@@ -75,62 +69,54 @@ public class RecipeController {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+
+        fetchRecipes();
     }
 
     @FXML
     void favoriteButtonClicked(ActionEvent event) {
-
-        // Test Stuff
-        recipes = FXCollections.observableArrayList();
-        ingredients = FXCollections.observableArrayList();
-
-        Ingredient testIngredient = new Ingredient(0,"testIngredient");
-        RecipeIngredient testRecipeIngredient = new RecipeIngredient(testIngredient, "oz.", 2);
-        ArrayList<RecipeIngredient> testArray = new ArrayList<>();
-        testArray.add(testRecipeIngredient);
-
-        Ingredient testIngredient1 = new Ingredient(0,"testIngredient1");
-        RecipeIngredient testRecipeIngredient1 = new RecipeIngredient(testIngredient, "lbs.", 3);
-        ArrayList<RecipeIngredient> testArray1 = new ArrayList<>();
-        testArray1.add(testRecipeIngredient1);
-
-        Recipe test = new Recipe(1, "test", 2.0 , testArray, "do stuff", false);
-        Recipe test1 = new Recipe(2, "test1", 1.5 , testArray1, "do stuff", false);
-        recipes.add(test);
-        recipes.add(test1);
-
-        recipesListView.setOnMouseClicked(mouseEvent -> {
-            Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
-
-            if (selectedRecipe == null) return;
-
-            recipeNameLabel.setText(selectedRecipe.getName());
-            recipeServingsLabel.setText("Servings: " + selectedRecipe.getServings());
-            recipeDirectionsTextArea.setText(selectedRecipe.getInstructions());
-            ingredients.clear();
-            ingredients.addAll(selectedRecipe.getIngredients());
-        });
-
-        recipesListView.setItems(recipes);
-        recipeIngredientsListView.setItems(ingredients);
-        // END OF TEST STUFF
-
         Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
 
         if(selectedRecipe == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("You must first select a recipe before favoriting");
+            alert.showAndWait();
             return;
         }
 
-        boolean currFavStatus = selectedRecipe.isFavorite();
-        selectedRecipe.setFavorite(!currFavStatus);
+        try {
+            // toggle favorite
+            recipeService.toggleFavoriteStatus(selectedRecipe.getId());
 
+            // save the index of the selected item before updating recipe list
+            int i = recipesListView.getSelectionModel().selectedIndexProperty().get();
+
+            // get the updated recipe list
+            fetchRecipes();
+
+            // select the same recipe that was previously selected
+            recipesListView.getSelectionModel().select(i);
+
+            // update the detail view (changes the favorite button color)
+            selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
+            updateDetails(selectedRecipe);
+
+        } catch (InvalidIDException | ReadRecipeException | ToggleFavoriteStatusException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("error favoriting recipe \n" + e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     @FXML
     void editRecipeButtonClicked(ActionEvent event) throws IOException {
         Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
+        int i = recipesListView.getSelectionModel().getSelectedIndex();
 
         if(selectedRecipe == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("You must first select a recipe to edit");
+            alert.showAndWait();
             return;
         }
 
@@ -146,6 +132,11 @@ public class RecipeController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
 
+        fetchRecipes();
+
+        recipesListView.getSelectionModel().select(i);
+        selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
+        updateDetails(selectedRecipe);
     }
 
     @FXML
@@ -153,15 +144,21 @@ public class RecipeController {
         Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
 
         if(selectedRecipe == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("You must first select a recipe to delete");
+            alert.showAndWait();
             return;
         }
 
         try {
             recipeService.deleteRecipe(selectedRecipe.getId());
-        } catch (InvalidIDException e) {
-            e.printStackTrace();
-        } catch (DeleteRecipeException e) {
-            e.printStackTrace();
+            fetchRecipes();
+            // Since the item was selected and is not selected anymore, we must clear the detail view
+            clearDetails();
+        } catch (InvalidIDException | DeleteRecipeException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("error removing recipe: \n " + e.getMessage());
+            alert.showAndWait();
         }
     }
 
@@ -173,8 +170,8 @@ public class RecipeController {
         sourceStage.setScene(scene);
     }
 
-    /*@Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         recipeService = new RecipeServiceImpl();
         recipes = FXCollections.observableArrayList();
         ingredients = FXCollections.observableArrayList();
@@ -184,26 +181,21 @@ public class RecipeController {
 
             if (selectedRecipe == null) return;
 
-            recipeNameLabel.setText(selectedRecipe.getName());
-            recipeServingsLabel.setText("Servings: " + selectedRecipe.getServings());
-            recipeDirectionsTextArea.setText(selectedRecipe.getInstructions());
-            ingredients.clear();
-            ingredients.addAll(selectedRecipe.getIngredients());
+            updateDetails(selectedRecipe);
         });
 
         recipesListView.setItems(recipes);
         recipeIngredientsListView.setItems(ingredients);
 
-        try {
-            fetchRecipes();
-        } catch (ReadAllRecipesException e) {
-            e.printStackTrace();
-        }
+        fetchRecipes();
     }
 
+
+    /**
+     * Populates the list view with recipes.
+     *
+     * (requirement 4.1.0)
      */
-
-
     private void fetchRecipes() {
         try {
             ArrayList<Recipe> recipesArray = recipeService.readAllRecipes();
@@ -212,5 +204,33 @@ public class RecipeController {
         } catch (ReadAllRecipesException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Displays the details of a recipe.
+     *
+     * (requirement 4.2.0)
+     *
+     * @param recipe The recipe whoms details will be displayed
+     */
+    private void updateDetails(Recipe recipe) {
+        recipeNameLabel.setText(recipe.getName());
+        recipeServingsLabel.setText("Servings: " + recipe.getServings());
+        recipeDirectionsTextArea.setText(recipe.getInstructions());
+        ingredients.clear();
+        ingredients.addAll(recipe.getIngredients());
+
+        if (recipe.isFavorite()) {
+            favoriteButton.setStyle("-fx-background-color: #00ff00");
+        } else {
+            favoriteButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-border-radius: 90;");
+        }
+    }
+
+    private void clearDetails() {
+        recipeNameLabel.setText("");
+        recipeServingsLabel.setText("");
+        recipeDirectionsTextArea.setText("");
+        ingredients.clear();
     }
 }
