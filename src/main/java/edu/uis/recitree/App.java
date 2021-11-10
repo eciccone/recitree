@@ -17,7 +17,7 @@ public class App extends Application {
         stage.setMinWidth(800);
         stage.setTitle("Welcome to ReciTree!");
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.show();
         scene.setOnKeyPressed(keyEvent-> {
             String codeString = keyEvent.getCode().toString();

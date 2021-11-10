@@ -26,7 +26,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="createRecipeButton" layoutX="718.0" layoutY="520.0" mnemonicParsing="false" onAction="#createRecipeButtonClicked" prefHeight="42.0" prefWidth="34.0" style="-fx-border-color: black; -fx-border-radius: 90;">
+      <Button fx:id="createRecipeButton" layoutX="741.0" layoutY="541.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createRecipeButtonClicked" prefHeight="45.0" prefWidth="45.0" style="-fx-border-color: black; -fx-border-radius: 90;">
          <graphic>
             <ImageView fitHeight="34.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -36,6 +36,18 @@
          </graphic>
          <tooltip>
             <Tooltip text="ADD A RECIPE" />
+         </tooltip>
+      </Button>
+      <Button fx:id="manageIngredientsButton" layoutX="14.0" layoutY="541.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#manageIngredientsButtonClicked" prefHeight="45.0" prefWidth="45.0" style="-fx-border-color: black; -fx-border-radius: 90;">
+         <graphic>
+            <ImageView fitHeight="34.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Ingredients_Button.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="MANAGE INGREDIENTS" />
          </tooltip>
       </Button>
    </children>
