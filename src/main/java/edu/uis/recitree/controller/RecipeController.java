@@ -60,6 +60,12 @@ public class RecipeController implements Initializable {
 
     private RecipeServiceImpl recipeService;
 
+    /**
+     * Loads the view for creating a recipe when createRecipeButton is clicked.
+     *
+     * @param event the ActionEvent that took place
+     * @throws IOException Thrown if there is an error loading create-recipe-view.fxml
+     */
     @FXML
     void createRecipeButtonClicked(ActionEvent event) throws IOException {
         FXMLLoader createRecipeLoader = new FXMLLoader(App.class.getResource("create-recipe-view.fxml"));
@@ -70,9 +76,25 @@ public class RecipeController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
 
+        // remember what recipe was selected, if any
+        int i = recipesListView.getSelectionModel().getSelectedIndex();
+
+        // update the recipe list view
         fetchRecipes();
+
+        // reselect the recipe
+        recipesListView.getSelectionModel().select(i);
     }
 
+    /**
+     * Toggles a recipes favorite status when the favorite button is clicked. If no recipe is selected when the favorite
+     * button is clicked, an alert is displayed to the user. If there is an error when toggling the recipes favorite
+     * status, an alert is displayed to the user with the error message.
+     *
+     * (requirement 4.6.0)
+     *
+     * @param event The ActionEvent that took place
+     */
     @FXML
     void favoriteButtonClicked(ActionEvent event) {
         Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
@@ -89,9 +111,9 @@ public class RecipeController implements Initializable {
             recipeService.toggleFavoriteStatus(selectedRecipe.getId());
 
             // save the index of the selected item before updating recipe list
-            int i = recipesListView.getSelectionModel().selectedIndexProperty().get();
+            int i = recipesListView.getSelectionModel().getSelectedIndex();
 
-            // get the updated recipe list
+            // update the recipe list
             fetchRecipes();
 
             // select the same recipe that was previously selected
@@ -100,7 +122,6 @@ public class RecipeController implements Initializable {
             // update the detail view (changes the favorite button color)
             selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
             updateDetails(selectedRecipe);
-
         } catch (InvalidIDException | ReadRecipeException | ToggleFavoriteStatusException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("error favoriting recipe \n" + e.getMessage());
@@ -125,7 +146,7 @@ public class RecipeController implements Initializable {
         Stage stage = new Stage();
 
         UpdateRecipeController updateRecipeController = updateRecipeLoader.getController();
-        updateRecipeController.getRecipeInfo(selectedRecipe);
+        updateRecipeController.setRecipe(selectedRecipe);
 
         stage.setTitle("Edit Recipe");
         stage.setScene(scene);
@@ -139,6 +160,14 @@ public class RecipeController implements Initializable {
         updateDetails(selectedRecipe);
     }
 
+    /**
+     * Deletes the recipe that is selected when the delete button is clicked. If a recipe is not selected, or an error
+     * occurs, the user is displayed an alert with the error message.
+     *
+     * (requirement 4.4.0)
+     *
+     * @param event The ActionEvent that took place
+     */
     @FXML
     void removeRecipeButtonClicked(ActionEvent event) {
         Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
@@ -192,7 +221,8 @@ public class RecipeController implements Initializable {
 
 
     /**
-     * Populates the list view with recipes.
+     * Populates the list view with recipes. If there is an error fetching the recipes an alert is displayed to the user
+     * with the error message.
      *
      * (requirement 4.1.0)
      */
@@ -202,16 +232,19 @@ public class RecipeController implements Initializable {
             recipes.clear();
             recipes.addAll(recipesArray);
         } catch (ReadAllRecipesException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("There was a problem fetching the recipes: \n" + e.getMessage());
+            alert.showAndWait();
         }
     }
 
     /**
-     * Displays the details of a recipe.
+     * Displays the details of a recipe. The favorite status is displayed through the background color of the favorite
+     * button.
      *
      * (requirement 4.2.0)
      *
-     * @param recipe The recipe whoms details will be displayed
+     * @param recipe The recipe that's details will be displayed
      */
     private void updateDetails(Recipe recipe) {
         recipeNameLabel.setText(recipe.getName());
@@ -227,6 +260,9 @@ public class RecipeController implements Initializable {
         }
     }
 
+    /**
+     * Clears the recipe details area of the view.
+     */
     private void clearDetails() {
         recipeNameLabel.setText("");
         recipeServingsLabel.setText("");

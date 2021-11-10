@@ -1,10 +1,14 @@
 package edu.uis.recitree.controller;
 
+import edu.uis.recitree.exception.ReadAllIngredientsException;
 import edu.uis.recitree.exception.UpdateRecipeException;
 import edu.uis.recitree.model.Ingredient;
 import edu.uis.recitree.model.Recipe;
 import edu.uis.recitree.model.RecipeIngredient;
+import edu.uis.recitree.service.IngredientServiceImpl;
 import edu.uis.recitree.service.RecipeServiceImpl;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,6 +50,8 @@ public class UpdateRecipeController implements Initializable {
 
     private ObservableList<RecipeIngredient> recipeIngredients;
     private RecipeServiceImpl recipeService;
+    private IngredientServiceImpl ingredientService;
+
     private Recipe selectedRecipe;
 
     @FXML
@@ -90,12 +97,20 @@ public class UpdateRecipeController implements Initializable {
         recipeIngredients.remove(selectedIngredient);
     }
 
+    /**
+     * Updates a recipe when the update button is clicked. The name must be included, ingredients must be included, and
+     * the serving size must be greater then 0. The recipe instructions are optional. If an error occurs when updating
+     * a recipe, an alert is displayed to the user with the error message.
+     *
+     * (requirement 4.5.0)
+     *
+     * @param event The ActionEvent that took place
+     */
     @FXML
     void updateRecipeButtonClicked(ActionEvent event) {
-
+        // Name must exist, ingredients must exist, serving size must exist
         if (recipeNameTextField.getText().equals("") ||
                 recipeServingsTextField.getText().equals("") ||
-                recipeDirectionsTextArea.getText().equals("") ||
                 recipeIngredients.size() == 0) {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -109,6 +124,14 @@ public class UpdateRecipeController implements Initializable {
         double recipeServings = Double.valueOf(recipeServingsTextField.getText());
         String recipeDirections = recipeDirectionsTextArea.getText();
         ArrayList<RecipeIngredient> ingredients = new ArrayList<RecipeIngredient>(recipeIngredients);
+
+        // Serving size must be greater then zero
+        if (recipeServings <= 0) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Serving size must be greater then zero.");
+            alert.showAndWait();
+            return;
+        }
 
         try {
             recipeService.updateRecipe(selectedRecipe.getId(), recipeName, recipeServings, ingredients, recipeDirections, selectedRecipe.isFavorite());
@@ -124,11 +147,46 @@ public class UpdateRecipeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         recipeService = new RecipeServiceImpl();
+        ingredientService = new IngredientServiceImpl();
         recipeIngredients = FXCollections.observableArrayList();
         ingredientsListView.setItems(recipeIngredients);
+
+        try {
+            ArrayList<Ingredient> autoIngredients = ingredientService.readAllIngredients();
+            System.out.println(autoIngredients);
+            TextFields.bindAutoCompletion(ingredientNameTextField, autoIngredients);
+        } catch (ReadAllIngredientsException e) {
+            e.printStackTrace();
+        }
+
+        // restrict recipeServingsTextfield and ingredientUnitAmountTextField to only accept decimals
+        ChangeListener<String> recipeServingsListener = decimalRestrictionListener(recipeServingsTextField);
+        ChangeListener<String> ingredientUnitAmountListener = decimalRestrictionListener(ingredientUnitAmountTextField);
+        recipeServingsTextField.textProperty().addListener(recipeServingsListener);
+        ingredientUnitAmountTextField.textProperty().addListener(ingredientUnitAmountListener);
     }
 
-    public void getRecipeInfo(Recipe recipe){
+    /**
+     * TextField listener to only accept decimal numbers whos values are up to 7 digits long, and decimal point is up
+     * to 2 digits long.
+     *
+     * @param textField The Textfield to apply the listener to
+     * @return The listener as a lambda
+     */
+    private ChangeListener<String> decimalRestrictionListener(TextField textField) {
+        return (observableValue, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,7}([\\.]\\d{0,2})?")) {
+                textField.setText(oldValue);
+            }
+        };
+    }
+
+    /**
+     * Sets the recipe that is being updated.
+     *
+     * @param recipe The recipe that is being updated
+     */
+    public void setRecipe(Recipe recipe){
 
         selectedRecipe = recipe;
 

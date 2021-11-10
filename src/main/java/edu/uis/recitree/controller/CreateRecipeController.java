@@ -1,11 +1,15 @@
 package edu.uis.recitree.controller;
 
 import edu.uis.recitree.exception.CreateRecipeException;
+import edu.uis.recitree.exception.ReadAllIngredientsException;
 import edu.uis.recitree.model.Ingredient;
 import edu.uis.recitree.model.Recipe;
 import edu.uis.recitree.model.RecipeIngredient;
+import edu.uis.recitree.service.IngredientServiceImpl;
 import edu.uis.recitree.service.RecipeService;
 import edu.uis.recitree.service.RecipeServiceImpl;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -44,6 +49,7 @@ public class CreateRecipeController implements Initializable {
     private ObservableList<RecipeIngredient> recipeIngredients;
 
     private RecipeServiceImpl recipeService;
+    private IngredientServiceImpl ingredientService;
 
     @FXML
     void addIngredientButtonClicked(ActionEvent event) {
@@ -62,7 +68,6 @@ public class CreateRecipeController implements Initializable {
         Ingredient ingredient = new Ingredient(ingredientNameTextField.getText());
         String unitType = ingredientUnitTypeTextField.getText();
         double unitAmount = Double.valueOf(ingredientUnitAmountTextField.getText());
-
         RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient, unitType, unitAmount);
 
         recipeIngredients.add(recipeIngredient);
@@ -80,16 +85,25 @@ public class CreateRecipeController implements Initializable {
         window.close();
     }
 
+    /**
+     * Creates a recipe when the create button is clicked. Name must be included, must contain ingredients, and the
+     * serving size must be greater then zero. The recipe instructions are optional. If there is an error creating the
+     * recipe, an alert is shown to the user with the error message.
+     *
+     * (requirement 4.3.0)
+     *
+     * @param event The ActionEvent that took place
+     */
     @FXML
     void createRecipeButtonClicked(ActionEvent event) {
 
+        // name must exist, ingredients must exist, serving size must exist
         if (recipeNameTextField.getText().equals("") ||
                 recipeServingsTextField.getText().equals("") ||
-                recipeDirectionsTextArea.getText().equals("") ||
                 recipeIngredients.size() == 0) {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Please make sure you entered a \nrecipe name, servings, ingredients, and directions.");
+            alert.setContentText("Please make sure you entered a \nrecipe name, servings, and ingredients.");
             alert.showAndWait();
 
             return;
@@ -100,17 +114,25 @@ public class CreateRecipeController implements Initializable {
         String recipeDirections = recipeDirectionsTextArea.getText();
         ArrayList<RecipeIngredient> ingredients = new ArrayList<RecipeIngredient>(recipeIngredients);
 
-        Recipe recipe = null;
-        try {
-            recipe = recipeService.createRecipe(recipeName, recipeServings, ingredients, recipeDirections);
-        } catch (CreateRecipeException e) {
-            e.printStackTrace();
+        // serving size must be greater than zero
+        if (recipeServings <= 0) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Serving size must be greater then zero.");
+            alert.showAndWait();
             return;
         }
 
-        Button button = (Button) event.getSource();
-        Stage window = (Stage) button.getScene().getWindow();
-        window.close();
+        try {
+            Recipe recipe = recipeService.createRecipe(recipeName, recipeServings, ingredients, recipeDirections);
+            Button button = (Button) event.getSource();
+            Stage window = (Stage) button.getScene().getWindow();
+            window.close();
+        } catch (CreateRecipeException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Error creating recipe \n" + e.getMessage());
+            alert.showAndWait();
+            return;
+        }
 
     }
 
@@ -127,8 +149,39 @@ public class CreateRecipeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         recipeService = new RecipeServiceImpl();
+        ingredientService = new IngredientServiceImpl();
+
         recipeIngredients = FXCollections.observableArrayList();
         ingredientsListView.setItems(recipeIngredients);
+
+        try {
+            ArrayList<Ingredient> autoIngredients = ingredientService.readAllIngredients();
+            System.out.println(autoIngredients);
+            TextFields.bindAutoCompletion(ingredientNameTextField, autoIngredients);
+        } catch (ReadAllIngredientsException e) {
+            e.printStackTrace();
+        }
+
+        // restrict recipeServingsTextfield and ingredientUnitAmountTextField to only accept decimals
+        ChangeListener<String> recipeServingsListener = decimalRestrictionListener(recipeServingsTextField);
+        ChangeListener<String> ingredientUnitAmountListener = decimalRestrictionListener(ingredientUnitAmountTextField);
+        recipeServingsTextField.textProperty().addListener(recipeServingsListener);
+        ingredientUnitAmountTextField.textProperty().addListener(ingredientUnitAmountListener);
+    }
+
+    /**
+     * TextField listener to only accept decimal numbers whos values are up to 7 digits long, and decimal point is up
+     * to 2 digits long.
+     *
+     * @param textField The Textfield to apply the listener to
+     * @return The listener as a lambda
+     */
+    private ChangeListener<String> decimalRestrictionListener(TextField textField) {
+        return (observableValue, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,7}([\\.]\\d{0,2})?")) {
+                textField.setText(oldValue);
+            }
+        };
     }
 
 }

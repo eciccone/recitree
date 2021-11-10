@@ -74,7 +74,7 @@ public class FavoritesController implements Initializable {
         Stage stage = new Stage();
 
         UpdateRecipeController updateRecipeController = updateRecipeLoader.getController();
-        updateRecipeController.getRecipeInfo(selectedRecipe);
+        updateRecipeController.setRecipe(selectedRecipe);
 
         stage.setTitle("Edit Recipe");
         stage.setScene(scene);
@@ -179,13 +179,21 @@ public class FavoritesController implements Initializable {
     }
 
 
+    /**
+     * Populates the listview with the favorite recipes. If an error occurs when fetching the recipe favorites
+     * an alert is displayed to the user with the error message.
+     *
+     * (requirement 4.7.0)
+     */
     private void fetchRecipes() {
         try {
             ArrayList<Recipe> recipesArray = recipeService.readAllFavoriteRecipes();
             recipes.clear();
             recipes.addAll(recipesArray);
         } catch (ReadAllFavoritesException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("There was a problem fetching favorites: \n" + e.getMessage());
+            alert.showAndWait();
         }
     }
 
