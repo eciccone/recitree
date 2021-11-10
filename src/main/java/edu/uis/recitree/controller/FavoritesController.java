@@ -57,6 +57,12 @@ public class FavoritesController implements Initializable {
 
     private RecipeServiceImpl recipeService;
 
+    /**
+     * Loads the view for updating a recipe when editRecipeButton is clicked.
+     *
+     * @param event the ActionEvent that took place
+     * @throws IOException Thrown if there is an error loading update-recipe-view.fxml
+     */
     @FXML
     void editRecipeButtonClicked(ActionEvent event) throws IOException {
         Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
@@ -88,6 +94,16 @@ public class FavoritesController implements Initializable {
         updateDetails(selectedRecipe);
     }
 
+    /**
+     * Toggles a recipes favorite status when the favorite button is clicked. If no recipe is selected when the favorite
+     * button is clicked, an alert is displayed to the user. If there is an error when toggling the recipes favorite
+     * status, an alert is displayed to the user with the error message. When a recipe is unfavorited, it will no longer
+     * be shown in the favorites view.
+     *
+     * (requirement 4.6.0)
+     *
+     * @param event The ActionEvent that took place
+     */
     @FXML
     void favoriteButtonClicked(ActionEvent event) {
         Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
@@ -127,6 +143,14 @@ public class FavoritesController implements Initializable {
         }
     }
 
+    /**
+     * Deletes the recipe that is selected when the delete button is clicked. If a recipe is not selected, or an error
+     * occurs, the user is displayed an alert with the error message.
+     *
+     * (requirement 4.4.0)
+     *
+     * @param event The ActionEvent that took place
+     */
     @FXML
     void removeRecipeButtonClicked(ActionEvent event) {
         Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
@@ -150,6 +174,12 @@ public class FavoritesController implements Initializable {
         }
     }
 
+    /**
+     * Returns to the navigation view (master-view.fxml).
+     *
+     * @param event The ActionEvent that took place
+     * @throws IOException Thrown if the master-view.fxml file cannot be loaded
+     */
     @FXML
     void returnButtonClicked(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("master-view.fxml"));
@@ -158,6 +188,12 @@ public class FavoritesController implements Initializable {
         sourceStage.setScene(scene);
     }
 
+    /**
+     * Initializes the controller.
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         recipeService = new RecipeServiceImpl();
@@ -178,7 +214,6 @@ public class FavoritesController implements Initializable {
         fetchRecipes();
     }
 
-
     /**
      * Populates the listview with the favorite recipes. If an error occurs when fetching the recipe favorites
      * an alert is displayed to the user with the error message.
@@ -197,6 +232,14 @@ public class FavoritesController implements Initializable {
         }
     }
 
+    /**
+     * Displays the details of a recipe. The favorite status is displayed through the background color of the favorite
+     * button.
+     *
+     * (requirement 4.2.0)
+     *
+     * @param recipe The recipe that's details will be displayed
+     */
     private void updateDetails(Recipe recipe) {
         recipeNameLabel.setText(recipe.getName());
         recipeServingsLabel.setText("Servings: " + recipe.getServings());
@@ -211,6 +254,9 @@ public class FavoritesController implements Initializable {
         }
     }
 
+    /**
+     * Clears the recipe details area of the view.
+     */
     private void clearDetails() {
         recipeNameLabel.setText("");
         recipeServingsLabel.setText("");

@@ -129,6 +129,12 @@ public class RecipeController implements Initializable {
         }
     }
 
+    /**
+     * Loads the view for updating a recipe when editRecipeButton is clicked.
+     *
+     * @param event the ActionEvent that took place
+     * @throws IOException Thrown if there is an error loading update-recipe-view.fxml
+     */
     @FXML
     void editRecipeButtonClicked(ActionEvent event) throws IOException {
         Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
@@ -191,6 +197,12 @@ public class RecipeController implements Initializable {
         }
     }
 
+    /**
+     * Returns to the navigation view (master-view.fxml).
+     *
+     * @param event The ActionEvent that took place
+     * @throws IOException Thrown if the master-view.fxml file cannot be loaded
+     */
     @FXML
     void returnButtonClicked(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("master-view.fxml"));
@@ -199,6 +211,12 @@ public class RecipeController implements Initializable {
         sourceStage.setScene(scene);
     }
 
+    /**
+     * Initializes the controller.
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         recipeService = new RecipeServiceImpl();
