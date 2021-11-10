@@ -10,6 +10,11 @@ import edu.uis.recitree.model.Ingredient;
 
 import java.util.ArrayList;
 
+/**
+ * Business logic for Ingredients in ReciTree
+ *
+ * @author Edward Ciccone
+ */
 public class IngredientServiceImpl implements IngredientService {
 
     private IngredientDAO ingredientDAO;
@@ -19,7 +24,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     /**
-     * Gets all the inactive ingredients.
+     * Gets all the inactive ingredients. If ingredients is null a ReadAllIngredientsException is thrown.
      *
      * (requirement 3.1.1)
      *
@@ -38,7 +43,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     /**
-     * Gets all the ingredients.
+     * Gets all the ingredients. If ingredients is null a ReadAllIngredientsException is thrown.
      *
      * @return The list of ingredients
      * @throws ReadAllIngredientsException Thrown if there is a problem selecting ingredients from the database
@@ -55,7 +60,8 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     /**
-     * Attempts to get an ingredient by name, if it fails a new ingredient is created instead
+     * Attempts to get an ingredient by name, if it fails a new ingredient is created instead. If a ingredient cannot
+     * be selected or created in the database, a CreateIngredientException is thrown.
      *
      * (requirement 3.3.0)
      *
@@ -82,7 +88,8 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     /**
-     * Deletes an ingredient by id
+     * Deletes an ingredient by id. If the id is less than 1 a InvalidIDException is thrown. If the ingredient cannot
+     * be deleted from the database, a DeleteIngredientException is thrown.
      *
      * (requirement 3.2.1)
      *
