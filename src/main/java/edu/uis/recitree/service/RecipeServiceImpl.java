@@ -11,6 +11,11 @@ import edu.uis.recitree.model.RecipeIngredient;
 
 import java.util.ArrayList;
 
+/**
+ * Business logic for the recipes of ReciTree.
+ *
+ * @author Edward Ciccone
+ */
 public class RecipeServiceImpl implements RecipeService {
 
     private IngredientDAO ingredientDAO;
@@ -25,7 +30,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     /**
      * Creates a recipes and inserts it into the database. Before constructing the recipe it reuses previously created
-     * ingredients in the database for each ingredient in the recipe being created.
+     * ingredients in the database for each ingredient in the recipe being created. If the recipe cannot be inserted
+     * into the database a CreateRecipeException is thrown.
      *
      * (requirement 4.3.1)
      *
@@ -66,7 +72,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * Reads all the user created recipes.
+     * Reads all the user created recipes. If the recipes are null an error occurred when reading the recipes from the
+     * database and a ReadAllRecipesException is thrown.
      *
      * (requirement 4.1.1)
      *
@@ -85,7 +92,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * Read all the favorited recipes.
+     * Read all the favorite recipes. If the recipes are null an error occured when reading the recipes from the
+     * database and a ReadAllFavoritesException is thrown.
      *
      * (requirement 4.7.1)
      *
@@ -104,7 +112,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * Searches for a recipe by name given a specific text.
+     * Searches for a recipe by name given a specific text. If the text is null or empty, it will get all the recipes
+     * from the database, otherwise it will get all the recipes from the database where the names contain the text. If
+     * recipes is null, an error occurred and a SearchRecipeException is thrown.
      *
      * (requirement 4.8.1)
      *
@@ -135,7 +145,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     /**
      * Updates a recipe and updates it in the database. Before reconstructing the recipe it reuses previously created
-     * ingredients in the database for each ingredient in the recipe being updated.
+     * ingredients in the database for each ingredient in the recipe being updated. If the recipe is null after
+     * writing the updates to the database, a UpdateRecipeException is thrown.
      *
      * (requirement 4.5.1)
      *
@@ -170,7 +181,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * Deletes a recipe by id.
+     * Deletes a recipe by id. If the id is less than 1 an InvalidIDException is thrown. If the recipe cannot be deleted
+     * from the database, a DeleteRecipeException is thrown.
      *
      * (requirement 4.4.1)
      *
@@ -195,7 +207,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * Toggles a recipes favorite status.
+     * Toggles a recipes favorite status. If the recipe is not a favorite, it becomes a favorite. If the recipe is a
+     * favorite, it is no longer a favorite. If the id is less than 1, a InvalidIDException is thrown. If the favorite
+     * status cannot be updated in the database, a ToggleFavoriteStatusException is thrown.
      *
      * (requirement 4.6.1)
      *
