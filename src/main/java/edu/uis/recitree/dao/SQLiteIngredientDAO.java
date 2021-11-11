@@ -114,7 +114,25 @@ public class SQLiteIngredientDAO implements IngredientDAO {
 
     @Override
     public Ingredient selectIngredientById(int id) {
-        return null;
+        String sql = "SELECT id, name FROM ingredient WHERE id = ?";
+
+        try (Connection conn = sqlite.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            Ingredient ingredient = null;
+            if (rs.next()) {
+                String ingredientName = rs.getString("name");
+                ingredient = new Ingredient(id, ingredientName);
+            }
+
+            return ingredient;
+        } catch (SQLException e) {
+            System.out.println("SQLiteIngredientDAO error: " + e.getMessage());
+            return null;
+        }
     }
 
     /**

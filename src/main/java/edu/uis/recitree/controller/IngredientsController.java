@@ -40,6 +40,15 @@ public class IngredientsController implements Initializable {
     private ObservableList<Ingredient> ingredients;
     private IngredientServiceImpl ingredientService;
 
+    /**
+     * When the removeIngredientButton is clicked it will delete the ingredient that is selected. If no ingredient is
+     * selected an alert will be displayed to the user telling them to select a ingredient. If an error occurs deleting
+     * the ingredient, an alert is displayed to the user with the error message.
+     *
+     * (requirement 3.2)
+     *
+     * @param event The event that took place
+     */
     @FXML
     void removeIngredientButtonClicked(ActionEvent event) {
         Ingredient selectedIngredient = ingredientsListView.getSelectionModel().getSelectedItem();
@@ -79,6 +88,12 @@ public class IngredientsController implements Initializable {
         fetchIngredients();
     }
 
+    /**
+     * Populates the list view with all the unused ingredients. If an error occurs fetching the ingredients an alert
+     * is displayed to the user with an error message.
+     *
+     * (requirement 3.1.0)
+     */
     private void fetchIngredients(){
         try {
             ArrayList<Ingredient> ingredientArray = ingredientService.readAllUnusedIngredients();
