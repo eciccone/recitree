@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -17,7 +18,7 @@
         <HBox spacing="10.0">
             <children>
                 <TextField fx:id="ingredientNameTextField" promptText="Ingredient name" />
-                <TextField fx:id="ingredientUnitTypeTextField" promptText="Unit type" />
+            <ChoiceBox fx:id="ingredientUnitTypeChoiceBox" prefWidth="150.0" />
                 <TextField fx:id="ingredientUnitAmountTextField" prefHeight="24.0" prefWidth="164.0" promptText="Unit amount" />
                 <Button mnemonicParsing="false" onAction="#addIngredientButtonClicked" text="Add" />
                 <Button mnemonicParsing="false" onAction="#removeIngredientButtonClicked" text="Remove" />

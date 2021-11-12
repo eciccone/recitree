@@ -41,7 +41,7 @@ public class CreateRecipeController implements Initializable {
     private TextField ingredientNameTextField;
 
     @FXML
-    private TextField ingredientUnitTypeTextField;
+    private ChoiceBox<String> ingredientUnitTypeChoiceBox;
 
     @FXML
     private TextField ingredientUnitAmountTextField;
@@ -55,7 +55,7 @@ public class CreateRecipeController implements Initializable {
     void addIngredientButtonClicked(ActionEvent event) {
 
         if (ingredientNameTextField.getText().equals("") ||
-                ingredientUnitTypeTextField.getText().equals("") ||
+                ingredientUnitTypeChoiceBox.getValue() == null ||
                 ingredientUnitAmountTextField.getText().equals("")) {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -66,14 +66,15 @@ public class CreateRecipeController implements Initializable {
         }
 
         Ingredient ingredient = new Ingredient(ingredientNameTextField.getText());
-        String unitType = ingredientUnitTypeTextField.getText();
+        String unitType = ingredientUnitTypeChoiceBox.getValue();
+//        String unitType = ingredientUnitTypeTextField.getText();
         double unitAmount = Double.valueOf(ingredientUnitAmountTextField.getText());
         RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient, unitType, unitAmount);
 
         recipeIngredients.add(recipeIngredient);
 
         ingredientNameTextField.setText("");
-        ingredientUnitTypeTextField.setText("");
+        ingredientUnitTypeChoiceBox.setValue(null);
         ingredientUnitAmountTextField.setText("");
 
     }
@@ -147,7 +148,7 @@ public class CreateRecipeController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         recipeService = new RecipeServiceImpl();
         ingredientService = new IngredientServiceImpl();
 
@@ -156,7 +157,6 @@ public class CreateRecipeController implements Initializable {
 
         try {
             ArrayList<Ingredient> autoIngredients = ingredientService.readAllIngredients();
-            System.out.println(autoIngredients);
             TextFields.bindAutoCompletion(ingredientNameTextField, autoIngredients);
         } catch (ReadAllIngredientsException e) {
             e.printStackTrace();
@@ -167,6 +167,8 @@ public class CreateRecipeController implements Initializable {
         ChangeListener<String> ingredientUnitAmountListener = decimalRestrictionListener(ingredientUnitAmountTextField);
         recipeServingsTextField.textProperty().addListener(recipeServingsListener);
         ingredientUnitAmountTextField.textProperty().addListener(ingredientUnitAmountListener);
+
+        buildChoiceBox();
     }
 
     /**
@@ -182,6 +184,18 @@ public class CreateRecipeController implements Initializable {
                 textField.setText(oldValue);
             }
         };
+    }
+
+    /**
+     * Adds the ingredient unit types to the choice box.
+     */
+    private void buildChoiceBox() {
+        ingredientUnitTypeChoiceBox.getItems().add("qty");
+        ingredientUnitTypeChoiceBox.getItems().add("tsp");
+        ingredientUnitTypeChoiceBox.getItems().add("tbsp");
+        ingredientUnitTypeChoiceBox.getItems().add("cup");
+        ingredientUnitTypeChoiceBox.getItems().add("oz");
+        ingredientUnitTypeChoiceBox.getItems().add("lb");
     }
 
 }
