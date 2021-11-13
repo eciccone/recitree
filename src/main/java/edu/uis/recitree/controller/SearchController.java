@@ -8,12 +8,15 @@ import edu.uis.recitree.service.RecipeServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -81,18 +84,22 @@ public class SearchController implements Initializable {
         sourceStage.setScene(scene);
     }
 
-
     /**
-     * Populates listView of recipes based on text in the search textField
-     * List is only populated after button is clicked by user
+     * Populates the listview of recipes when the searchButton is clicked.
      *
-     * (requirement 4.8.0)
-     *
-     * @param event
+     * @param event The ActionEvent that took place
      */
     @FXML
     void searchButtonClicked(ActionEvent event) {
+        searchAndPopulateRecipes();
+    }
 
+    /**
+     * Populates listView of recipes based on text in the search textField
+     *
+     * (requirement 4.8.0)
+     */
+    private void searchAndPopulateRecipes() {
         String searchedText = searchTextField.getText();
 
         try {
@@ -104,8 +111,6 @@ public class SearchController implements Initializable {
             alert.setContentText("SEARCH ERROR\n" + e.getMessage());
             alert.showAndWait();
         }
-
-
     }
 
     /**
@@ -126,6 +131,12 @@ public class SearchController implements Initializable {
             if (selectedRecipe == null) return;
 
             updateDetails(selectedRecipe);
+        });
+
+        searchTextField.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+                searchAndPopulateRecipes();
+            }
         });
 
         recipesListView.setItems(recipes);
