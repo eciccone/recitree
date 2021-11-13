@@ -205,7 +205,52 @@ public class SQLiteRecipeDAO implements RecipeDAO {
 
     @Override
     public ArrayList<Recipe> selectAllRecipesWhereNameContains(String text) {
-        return null;
+        String sql1 = "SELECT id, name, servings, instructions FROM recipe WHERE name LIKE '%" + text + "%'";
+
+        String sql2 =
+                "SELECT recipe_ingredient.id, recipe_ingredient.unit_type, recipe_ingredient.unit_amount, " +
+                        "Ingredient.id as ingredient_id, ingredient.name FROM recipe_ingredient, ingredient WHERE " +
+                        "ingredient.id = recipe_ingredient.ingredient_id AND recipe_ingredient.recipe_id = ?";
+
+        try(Connection conn = sqlite.connect();
+            PreparedStatement stmt1 = conn.prepareStatement(sql1);
+            PreparedStatement stmt2 = conn.prepareStatement(sql2)) {
+
+            ResultSet rs1 = stmt1.executeQuery();
+            ArrayList<Recipe> recipes = new ArrayList<>();
+
+            while (rs1.next()) {
+                int recipeId = rs1.getInt("id");
+                String recipeName = rs1.getString("name");
+                double recipeServings = rs1.getDouble("servings");
+                String instructions = rs1.getString("instructions");
+
+                stmt2.setInt(1, recipeId);
+                ResultSet rs2 = stmt2.executeQuery();
+                ArrayList<RecipeIngredient> ingredients = new ArrayList<>();
+
+                while (rs2.next()) {
+                    int recipeIngredientId = rs2.getInt("id");
+                    String unitType = rs2.getString("unit_type");
+                    double unitAmount = rs2.getDouble("unit_amount");
+                    int ingredientId = rs2.getInt("ingredient_id");
+                    String ingredientName = rs2.getString("name");
+
+                    Ingredient ingredient = new Ingredient(ingredientId, ingredientName);
+                    RecipeIngredient recipeIngredient = new RecipeIngredient(recipeIngredientId, ingredient, unitType, unitAmount);
+                    ingredients.add(recipeIngredient);
+                }
+
+                Recipe recipe = new Recipe(recipeId, recipeName, recipeServings, ingredients, instructions, false);
+                recipes.add(recipe);
+            }
+
+            return recipes;
+
+        } catch (SQLException e) {
+            System.out.println("SQLiteRecipeDAO error: " + e.getMessage());
+            return null;
+        }
     }
 
     /**
