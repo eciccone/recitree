@@ -203,6 +203,14 @@ public class SQLiteRecipeDAO implements RecipeDAO {
         }
     }
 
+    /**
+     * Selects all the recipes from the database that contains a specific text in their names.
+     *
+     * (requirement 4.8.2)
+     *
+     * @param text The text used to search for recipes
+     * @return An ArrayList of all the recipes in the database that contain the text in their names, null if something went wrong
+     */
     @Override
     public ArrayList<Recipe> selectAllRecipesWhereNameContains(String text) {
         String sql1 = "SELECT id, name, servings, instructions FROM recipe WHERE name LIKE '%" + text + "%'";
