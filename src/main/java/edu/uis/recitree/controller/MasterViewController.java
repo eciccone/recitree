@@ -29,8 +29,68 @@ public class MasterViewController {
     @FXML
     private Button searchRecipesButton;
 
+    /**
+     * Determines which view to render when an option is chosen from the choice of navigation buttons.
+     *
+     * @param event The button click ActionEvent
+     * @throws IOException Thrown if there is an error when rendering a fxml file
+     */
     @FXML
-    void createRecipeButtonClicked(ActionEvent event) throws IOException {
+    void navButtonClicked(ActionEvent event) throws IOException {
+        Button clickedButton = (Button) event.getSource();
+
+        switch (clickedButton.getId()) {
+            case "recipesButton":
+                renderRecipeView(event);
+                break;
+            case "favoritesButton":
+                renderFavoriteView(event);
+                break;
+            case "createRecipeButton":
+                renderCreateRecipeView(event);
+                break;
+            case "manageIngredientsButton":
+                renderIngredientManagementView(event);
+                break;
+            case "searchRecipesButton":
+                renderSearchRecipeView(event);
+                break;
+        }
+    }
+
+    /**
+     * Renders the recipe-view.fxml file.
+     *
+     * @param event The button click ActionEvent
+     * @throws IOException Thrown if there is an error when rendering recipe-view.fxml
+     */
+    private void renderRecipeView(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("recipe-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage sourceStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        sourceStage.setScene(scene);
+    }
+
+    /**
+     * Renders the favorites-view.fxml file.
+     *
+     * @param event The button click ActionEvent
+     * @throws IOException Thrown if there is an error when rendering favorites-view.fxml
+     */
+    private void renderFavoriteView(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("favorites-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage sourceStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        sourceStage.setScene(scene);
+    }
+
+    /**
+     * Renders the create-recipe-view.fxml file.
+     *
+     * @param event The button click ActionEvent
+     * @throws IOException Thrown if there is an error when rendering create-recipe-view.fxml
+     */
+    private void renderCreateRecipeView(ActionEvent event) throws IOException {
         FXMLLoader createRecipeLoader = new FXMLLoader(App.class.getResource("create-recipe-view.fxml"));
         Scene scene = new Scene(createRecipeLoader.load());
         Stage stage = new Stage();
@@ -40,8 +100,13 @@ public class MasterViewController {
         stage.showAndWait();
     }
 
-    @FXML
-    void manageIngredientsButtonClicked(ActionEvent event) throws IOException{
+    /**
+     * Renders the ingredients-view.fxml file.
+     *
+     * @param event The button click ActionEvent
+     * @throws IOException Thrown if there is an error when rendering ingredients-view.fxml
+     */
+    private void renderIngredientManagementView(ActionEvent event) throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("ingredients-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage sourceStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -49,24 +114,13 @@ public class MasterViewController {
         sourceStage.setScene(scene);
     }
 
-    @FXML
-    void favoritesButtonClicked(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("favorites-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage sourceStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        sourceStage.setScene(scene);
-    }
-
-    @FXML
-    void recipesButtonClicked(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("recipe-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage sourceStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        sourceStage.setScene(scene);
-    }
-
-    @FXML
-    void searchRecipesButtonClicked(ActionEvent event) throws IOException {
+    /**
+     * Renders the search-view.fxml file.
+     *
+     * @param event The button click ActionEvent
+     * @throws IOException Thrown if there is an error when rendering search-view.fxml
+     */
+    private void renderSearchRecipeView(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("search-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage sourceStage = (Stage) ((Node)event.getSource()).getScene().getWindow();

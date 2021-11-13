@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@master-view-stylesheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uis.recitree.controller.MasterViewController">
    <children>
-      <Button fx:id="recipesButton" layoutX="106.0" layoutY="172.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#recipesButtonClicked" prefHeight="256.0" prefWidth="256.0">
+      <Button fx:id="recipesButton" layoutX="106.0" layoutY="172.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#navButtonClicked" prefHeight="256.0" prefWidth="256.0">
          <graphic>
             <ImageView fitHeight="278.0" fitWidth="278.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -17,7 +17,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="favoritesButton" layoutX="462.0" layoutY="172.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#favoritesButtonClicked" prefHeight="256.0" prefWidth="256.0">
+      <Button fx:id="favoritesButton" layoutX="462.0" layoutY="172.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#navButtonClicked" prefHeight="256.0" prefWidth="256.0">
          <graphic>
             <ImageView fitHeight="278.0" fitWidth="278.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -26,7 +26,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="createRecipeButton" layoutX="741.0" layoutY="541.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createRecipeButtonClicked" prefHeight="45.0" prefWidth="45.0" style="-fx-border-color: black; -fx-border-radius: 90;">
+      <Button fx:id="createRecipeButton" layoutX="741.0" layoutY="541.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navButtonClicked" prefHeight="45.0" prefWidth="45.0" style="-fx-border-color: black; -fx-border-radius: 90;">
          <graphic>
             <ImageView fitHeight="34.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -38,7 +38,7 @@
             <Tooltip text="ADD A RECIPE" />
          </tooltip>
       </Button>
-      <Button fx:id="manageIngredientsButton" layoutX="14.0" layoutY="541.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#manageIngredientsButtonClicked" prefHeight="45.0" prefWidth="45.0" style="-fx-border-color: black; -fx-border-radius: 90;">
+      <Button fx:id="manageIngredientsButton" layoutX="14.0" layoutY="541.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navButtonClicked" prefHeight="45.0" prefWidth="45.0" style="-fx-border-color: black; -fx-border-radius: 90;">
          <graphic>
             <ImageView fitHeight="34.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -50,7 +50,7 @@
             <Tooltip text="MANAGE UNUSED INGREDIENTS" />
          </tooltip>
       </Button>
-      <Button fx:id="searchRecipesButton" layoutX="741.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchRecipesButtonClicked" prefHeight="45.0" prefWidth="45.0" style="-fx-border-color: black; -fx-border-radius: 90;">
+      <Button fx:id="searchRecipesButton" layoutX="741.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navButtonClicked" prefHeight="45.0" prefWidth="45.0" style="-fx-border-color: black; -fx-border-radius: 90;">
          <graphic>
             <ImageView fitHeight="34.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
