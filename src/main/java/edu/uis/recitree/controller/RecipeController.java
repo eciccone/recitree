@@ -272,9 +272,9 @@ public class RecipeController implements Initializable {
         ingredients.addAll(recipe.getIngredients());
 
         if (recipe.isFavorite()) {
-            favoriteButton.setStyle("-fx-background-color: #00ff00");
+            favoriteButton.setStyle("-fx-background-color: #ff0000; -fx-border-width: 2");
         } else {
-            favoriteButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-border-radius: 90;");
+            favoriteButton.setStyle("-fx-background-color: transparent; -fx-border-color: #ff0000; -fx-border-width: 2");
         }
     }
 

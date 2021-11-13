@@ -27,6 +27,9 @@ public class MasterViewController {
     private Button manageIngredientsButton;
 
     @FXML
+    private Button searchRecipesButton;
+
+    @FXML
     void createRecipeButtonClicked(ActionEvent event) throws IOException {
         FXMLLoader createRecipeLoader = new FXMLLoader(App.class.getResource("create-recipe-view.fxml"));
         Scene scene = new Scene(createRecipeLoader.load());
@@ -57,6 +60,14 @@ public class MasterViewController {
     @FXML
     void recipesButtonClicked(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("recipe-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage sourceStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        sourceStage.setScene(scene);
+    }
+
+    @FXML
+    void searchRecipesButtonClicked(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("search-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage sourceStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         sourceStage.setScene(scene);
