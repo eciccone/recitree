@@ -26,6 +26,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * The ingredient-view.fxml controller.
+ *
+ * @author Mahmoud Radwan
+ */
 public class IngredientsController implements Initializable {
 
     @FXML
