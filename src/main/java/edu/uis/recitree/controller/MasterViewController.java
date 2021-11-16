@@ -12,6 +12,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * The master-view.fxml controller.
+ *
+ * @author Mahmoud Radwan
+ */
 public class MasterViewController {
 
     @FXML
