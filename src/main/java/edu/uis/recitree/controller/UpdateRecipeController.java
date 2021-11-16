@@ -153,7 +153,6 @@ public class UpdateRecipeController implements Initializable {
 
         try {
             ArrayList<Ingredient> autoIngredients = ingredientService.readAllIngredients();
-            System.out.println(autoIngredients);
             TextFields.bindAutoCompletion(ingredientNameTextField, autoIngredients);
         } catch (ReadAllIngredientsException e) {
             e.printStackTrace();
