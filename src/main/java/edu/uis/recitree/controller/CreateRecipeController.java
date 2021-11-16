@@ -23,6 +23,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * The create-recipe-view.fxml controller.
+ *
+ * @author Mahmoud Radwan
+ * @author (further edited) Edward Ciccone
+ */
 public class CreateRecipeController implements Initializable {
 
     @FXML
@@ -51,6 +57,11 @@ public class CreateRecipeController implements Initializable {
     private RecipeServiceImpl recipeService;
     private IngredientServiceImpl ingredientService;
 
+    /**
+     * Adds a recipe ingredient to the recipe ingredient list view.
+     *
+     * @param event The add recipe ingredient button clicked ActionEvent
+     */
     @FXML
     void addIngredientButtonClicked(ActionEvent event) {
 
@@ -67,7 +78,6 @@ public class CreateRecipeController implements Initializable {
 
         Ingredient ingredient = new Ingredient(ingredientNameTextField.getText());
         String unitType = ingredientUnitTypeChoiceBox.getValue();
-//        String unitType = ingredientUnitTypeTextField.getText();
         double unitAmount = Double.valueOf(ingredientUnitAmountTextField.getText());
         RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient, unitType, unitAmount);
 
@@ -79,6 +89,11 @@ public class CreateRecipeController implements Initializable {
 
     }
 
+    /**
+     * Cancels creating a new recipe and closes the window.
+     *
+     * @param event The cancel button clicked ActionEvent
+     */
     @FXML
     void cancelRecipeButtonClicked(ActionEvent event) {
         Button button = (Button) event.getSource();
@@ -137,6 +152,11 @@ public class CreateRecipeController implements Initializable {
 
     }
 
+    /**
+     * Removes an ingredient from the recipe ingredients list view when the remove ingredient button is clicked.
+     *
+     * @param event The remove ingredient button clicked ActionEvent
+     */
     @FXML
     void removeIngredientButtonClicked(ActionEvent event) {
         RecipeIngredient selectedIngredient = ingredientsListView.getSelectionModel().getSelectedItem();
@@ -147,6 +167,12 @@ public class CreateRecipeController implements Initializable {
         recipeIngredients.remove(selectedIngredient);
     }
 
+    /**
+     * Initializes the controller.
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         recipeService = new RecipeServiceImpl();
