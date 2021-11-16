@@ -24,6 +24,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * The search-view.fxml controller.
+ *
+ * @author Mahmoud Radwan
+ */
 public class SearchController implements Initializable {
 
     @FXML
