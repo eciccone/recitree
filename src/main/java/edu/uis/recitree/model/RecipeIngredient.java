@@ -1,5 +1,10 @@
 package edu.uis.recitree.model;
 
+/**
+ * Encapsulates a recipe ingredient relationship.
+ *
+ * @author Edward Ciccone
+ */
 public class RecipeIngredient {
 
     private int id;

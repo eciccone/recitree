@@ -1,5 +1,10 @@
 package edu.uis.recitree.model;
 
+/**
+ * Encapsulates an ingredient.
+ *
+ * @author Edward Ciccone
+ */
 public class Ingredient {
 
     private int id;

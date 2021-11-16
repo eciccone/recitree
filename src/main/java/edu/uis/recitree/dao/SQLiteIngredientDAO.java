@@ -6,6 +6,11 @@ import edu.uis.recitree.model.Ingredient;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Handles all queries for ingredients.
+ *
+ * @author Edward Ciccone
+ */
 public class SQLiteIngredientDAO implements IngredientDAO {
 
     private SQLiteConnection sqlite;
@@ -112,6 +117,12 @@ public class SQLiteIngredientDAO implements IngredientDAO {
         }
     }
 
+    /**
+     * Selects an ingredient by id in the database.
+     *
+     * @param id The id of the ingredient to select
+     * @return The ingredient, null if a problem occured or an ingredient did not exist with the id
+     */
     @Override
     public Ingredient selectIngredientById(int id) {
         String sql = "SELECT id, name FROM ingredient WHERE id = ?";

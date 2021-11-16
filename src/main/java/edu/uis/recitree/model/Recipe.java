@@ -2,6 +2,11 @@ package edu.uis.recitree.model;
 
 import java.util.ArrayList;
 
+/**
+ * Encapsulates a recipe.
+ *
+ * @author Edward Ciccone
+ */
 public class Recipe {
 
     private int id;

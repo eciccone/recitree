@@ -8,6 +8,11 @@ import edu.uis.recitree.model.RecipeIngredient;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Handles all the queries for recipes.
+ *
+ * @author Edward Ciccone
+ */
 public class SQLiteRecipeDAO implements RecipeDAO {
 
     private SQLiteConnection sqlite;
