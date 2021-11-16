@@ -22,6 +22,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * The update-recipe-view.fxml controller.
+ *
+ * @author Mahmoud Radwan
+ * @author (edited) Edward Ciccone
+ */
 public class UpdateRecipeController implements Initializable {
 
     @FXML
@@ -54,6 +60,11 @@ public class UpdateRecipeController implements Initializable {
 
     private Recipe selectedRecipe;
 
+    /**
+     * Adds a recipe ingredient to the recipe ingredient ListView.
+     *
+     * @param event The add ingredient button clicked ActionEvent
+     */
     @FXML
     void addIngredientButtonClicked(ActionEvent event) {
         if (ingredientNameTextField.getText().equals("") ||
@@ -80,6 +91,11 @@ public class UpdateRecipeController implements Initializable {
         ingredientUnitAmountTextField.setText("");
     }
 
+    /**
+     * Cancels updating a recipe and closes the window.
+     *
+     * @param event The cancel button clicked ActionEvent
+     */
     @FXML
     void cancelRecipeButtonClicked(ActionEvent event) {
         Button button = (Button) event.getSource();
@@ -87,6 +103,11 @@ public class UpdateRecipeController implements Initializable {
         window.close();
     }
 
+    /**
+     * Removes an ingredient from the recipe ingredient ListView.
+     *
+     * @param event The add ingredient button clicked ActionEvent
+     */
     @FXML
     void removeIngredientButtonClicked(ActionEvent event) {
         RecipeIngredient selectedIngredient = ingredientsListView.getSelectionModel().getSelectedItem();
@@ -144,6 +165,12 @@ public class UpdateRecipeController implements Initializable {
         window.close();
     }
 
+    /**
+     * Initializes the controller.
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         recipeService = new RecipeServiceImpl();
