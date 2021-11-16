@@ -23,6 +23,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * The favorites-view.fxml controller.
+ *
+ * @author Mahmoud Radwan
+ * @author (edited) Edward Ciccone
+ */
 public class FavoritesController implements Initializable {
 
     @FXML
