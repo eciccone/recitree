@@ -397,28 +397,20 @@ public class SQLiteRecipeDAO implements RecipeDAO {
      */
     @Override
     public boolean deleteRecipe(int id) {
-        String sql1 = "DELETE FROM recipe WHERE id = ?";
-        String sql2 = "DELETE FROM recipe_ingredient WHERE recipe_id = ?";
-        String sql3 = "DELETE FROM favorite WHERE recipe_id = ?";
+        String sql = "DELETE FROM recipe WHERE id = ?";
 
         try (Connection conn = sqlite.connect();
-             PreparedStatement stmt1 = conn.prepareStatement(sql1);
-             PreparedStatement stmt2 = conn.prepareStatement(sql2);
-             PreparedStatement stmt3 = conn.prepareStatement(sql3)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt1.setInt(1, id);
+            sqlite.enableForeignKey(conn);
 
-            int affectedRows = stmt1.executeUpdate();
+            stmt.setInt(1, id);
+
+            int affectedRows = stmt.executeUpdate();
 
             if (affectedRows == 0) {
                 throw new SQLException("deleting recipe failed, no rows affected");
             }
-
-            stmt2.setInt(1, id);
-            stmt2.executeUpdate();
-
-            stmt3.setInt(1, id);
-            stmt3.executeUpdate();
 
             return true;
         } catch (SQLException e) {
