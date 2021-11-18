@@ -1,9 +1,6 @@
 package edu.uis.recitree.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * This class is responsible for establishing a connection to a SQLite database and building the required tables
@@ -66,6 +63,23 @@ public class SQLiteConnection {
      */
     public Connection connect() throws SQLException {
         return DriverManager.getConnection(DB_URL);
+    }
+
+    /**
+     * In order for the sqlite jdbc to conform to foreign key requirements, foreign keys must be turned on with every
+     * new connection. This is required for foreign key constraints and cascade deletes.
+     *
+     * @param conn The opened connection
+     * @throws SQLException Thrown if there is an error executing update to turn on foreign keys
+     */
+    public void enableForeignKey(Connection conn) throws SQLException {
+        String sql = "PRAGMA foreign_keys = ON";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throw new SQLException("enabling foreign keys failed");
+        }
     }
 
     /**
