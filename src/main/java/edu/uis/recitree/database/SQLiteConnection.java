@@ -50,6 +50,14 @@ public class SQLiteConnection {
                 "PRIMARY KEY (id AUTOINCREMENT)" +
             ");";
 
+    private static final String TAG_TABLE =
+            "CREATE TABLE tag (" +
+                "tag_name TEXT NOT NULL," +
+                "recipe_id INTEGER NOT NULL," +
+                "FOREIGN KEY(recipe_id) REFERENCES recipe(id) ON DELETE CASCADE," +
+                "CONSTRAINT unq UNIQUE (tag_name, recipe_id)" +
+            ");";
+
     /**
      * Establishes a connection to the database
      *
