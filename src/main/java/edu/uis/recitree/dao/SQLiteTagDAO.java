@@ -16,6 +16,13 @@ public class SQLiteTagDAO implements TagDAO {
         sqlite = new SQLiteConnection();
     }
 
+    /**
+     * Selects all the distinct tags from the database.
+     *
+     * (requirement 5.1.2)
+     *
+     * @return The ArrayList of tags
+     */
     @Override
     public ArrayList<String> selectAllTags() {
         String sql = "SELECT DISTINCT tag_name FROM tag";
@@ -38,6 +45,14 @@ public class SQLiteTagDAO implements TagDAO {
         }
     }
 
+    /**
+     * Selects all the tags for a specific recipe from the database.
+     *
+     * (requirement 5.6.2)
+     *
+     * @param recipeId The id of the recipe to get the tags for
+     * @return The ArrayList of tags
+     */
     @Override
     public ArrayList<String> selectRecipeTags(int recipeId) {
         String sql = "SELECT tag_name FROM tag WHERE recipe_id = ?";
@@ -60,6 +75,14 @@ public class SQLiteTagDAO implements TagDAO {
         }
     }
 
+    /**
+     * Selects all the recipes which belong to a specific tag from the database.
+     *
+     * (requirement 5.2.2)
+     *
+     * @param tag The tag that the recipes belong to
+     * @return The ArrayList of recipes
+     */
     @Override
     public ArrayList<Recipe> selectRecipesByTag(String tag) {
         String sql1 =
@@ -114,6 +137,15 @@ public class SQLiteTagDAO implements TagDAO {
         }
     }
 
+    /**
+     * Inserts a new tag for a specific recipe into the database.
+     *
+     * (requirement 5.4.2)
+     *
+     * @param tag The new tag
+     * @param recipeId The id of the recipe it belongs to
+     * @return True if the tag is successfully inserted, otherwise false
+     */
     @Override
     public boolean insertRecipeTag(String tag, int recipeId) {
         String sql = "INSERT INTO tag (tag_name, recipe_id) VALUES (?, ?)";
@@ -137,6 +169,15 @@ public class SQLiteTagDAO implements TagDAO {
         }
     }
 
+    /**
+     * Deletes a tag for a specific recipe from the database.
+     *
+     * (requirement 5.5.2)
+     *
+     * @param tag The tag to be deleted
+     * @param recipeId The id of the recipe to which it belongs
+     * @return
+     */
     @Override
     public boolean deleteRecipeTag(String tag, int recipeId) {
         String sql = "DELETE FROM tag WHERE tag_name = ? AND recipe_id = ?";
