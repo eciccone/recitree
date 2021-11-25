@@ -61,6 +61,9 @@ public class RecipeController implements Initializable {
     @FXML
     private Button favoriteButton;
 
+    @FXML
+    private Button manageTagsButton;
+
     private ObservableList<Recipe> recipes;
     private ObservableList<RecipeIngredient> ingredients;
 
@@ -163,6 +166,7 @@ public class RecipeController implements Initializable {
         stage.setTitle("Edit Recipe");
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
         stage.showAndWait();
 
         fetchRecipes();
@@ -201,6 +205,41 @@ public class RecipeController implements Initializable {
             alert.setContentText("error removing recipe: \n " + e.getMessage());
             alert.showAndWait();
         }
+    }
+
+    /**
+     * Opens pop-up window that allows user to view all tags of selected recipe
+     * User can then proceed to add new tags or remove existing ones
+     *
+     * @param event
+     * @throws IOException
+     */
+    @FXML
+    void manageTagsButtonClicked(ActionEvent event) throws IOException{
+        Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
+        int i = recipesListView.getSelectionModel().getSelectedIndex();
+
+        if(selectedRecipe == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("You must first select a recipe to manage its tags");
+            alert.showAndWait();
+            return;
+        }
+
+        FXMLLoader recipeTagLoader = new FXMLLoader(App.class.getResource("recipe-tag-view.fxml"));
+        Scene scene = new Scene(recipeTagLoader.load());
+        Stage stage = new Stage();
+
+        RecipeTagController recipeTagController = recipeTagLoader.getController();
+        recipeTagController.setRecipe(selectedRecipe);
+
+        stage.setTitle("Manage Tags");
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setResizable(false);
+        stage.showAndWait();
+
+        recipesListView.getSelectionModel().select(i);
     }
 
     /**

@@ -30,7 +30,7 @@
          <graphic>
             <ImageView fitHeight="34.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Plus.png" />
+                  <Image url="@Plus_Button.png" />
                </image>
             </ImageView>
          </graphic>
@@ -60,6 +60,18 @@
          </graphic>
          <tooltip>
             <Tooltip text="SEARCH FOR A RECIPE" />
+         </tooltip>
+      </Button>
+      <Button fx:id="tagButton" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navButtonClicked" prefHeight="45.0" prefWidth="45.0" style="-fx-border-color: black; -fx-border-radius: 90;">
+         <graphic>
+            <ImageView fitHeight="34.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Edit_Tags_Button.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="SEARCH BY TAGS" />
          </tooltip>
       </Button>
    </children>

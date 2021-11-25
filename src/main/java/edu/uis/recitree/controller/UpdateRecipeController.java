@@ -195,7 +195,7 @@ public class UpdateRecipeController implements Initializable {
     }
 
     /**
-     * TextField listener to only accept decimal numbers whos values are up to 7 digits long, and decimal point is up
+     * TextField listener to only accept decimal numbers whose values are up to 7 digits long, and decimal point is up
      * to 2 digits long.
      *
      * @param textField The Textfield to apply the listener to

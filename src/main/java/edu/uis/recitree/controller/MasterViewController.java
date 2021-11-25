@@ -60,6 +60,9 @@ public class MasterViewController {
             case "searchRecipesButton":
                 renderSearchRecipeView(event);
                 break;
+            case "tagButton":
+                renderTagView(event);
+                break;
         }
     }
 
@@ -127,6 +130,19 @@ public class MasterViewController {
      */
     private void renderSearchRecipeView(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("search-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage sourceStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        sourceStage.setScene(scene);
+    }
+
+    /**
+     * Renders the tag-view.fxml file.
+     *
+     * @param event The button click ActionEvent
+     * @throws IOException Thrown if there is an error when rendering search-view.fxml
+     */
+    private void renderTagView(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("tag-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage sourceStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         sourceStage.setScene(scene);
