@@ -2,6 +2,7 @@ package edu.uis.recitree.controller;
 
 import edu.uis.recitree.exception.TagException;
 import edu.uis.recitree.model.Recipe;
+import edu.uis.recitree.service.TagService;
 import edu.uis.recitree.service.TagServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,7 +36,7 @@ public class RecipeTagController implements Initializable {
     private Button removeTagButton;
 
     private Recipe selectedRecipe;
-    private TagServiceImpl tagService;
+    private TagService tagService;
     private ObservableList recipeTags;
 
     /**

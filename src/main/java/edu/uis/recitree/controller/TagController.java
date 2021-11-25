@@ -2,9 +2,9 @@ package edu.uis.recitree.controller;
 
 import edu.uis.recitree.App;
 import edu.uis.recitree.exception.TagException;
-import edu.uis.recitree.model.Ingredient;
 import edu.uis.recitree.model.Recipe;
 import edu.uis.recitree.model.RecipeIngredient;
+import edu.uis.recitree.service.TagService;
 import edu.uis.recitree.service.TagServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,7 +45,7 @@ public class TagController implements Initializable {
     @FXML
     private TextArea recipeDirectionsTextArea;
 
-    private TagServiceImpl tagService;
+    private TagService tagService;
     private Recipe selectedRecipe;
     private ObservableList tags;
     private ObservableList recipes;

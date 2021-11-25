@@ -5,6 +5,7 @@ import edu.uis.recitree.exception.ReadAllIngredientsException;
 import edu.uis.recitree.model.Ingredient;
 import edu.uis.recitree.model.Recipe;
 import edu.uis.recitree.model.RecipeIngredient;
+import edu.uis.recitree.service.IngredientService;
 import edu.uis.recitree.service.IngredientServiceImpl;
 import edu.uis.recitree.service.RecipeService;
 import edu.uis.recitree.service.RecipeServiceImpl;
@@ -54,8 +55,8 @@ public class CreateRecipeController implements Initializable {
 
     private ObservableList<RecipeIngredient> recipeIngredients;
 
-    private RecipeServiceImpl recipeService;
-    private IngredientServiceImpl ingredientService;
+    private RecipeService recipeService;
+    private IngredientService ingredientService;
 
     /**
      * Adds a recipe ingredient to the recipe ingredient list view.

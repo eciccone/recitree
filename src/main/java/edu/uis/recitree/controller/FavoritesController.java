@@ -2,9 +2,9 @@ package edu.uis.recitree.controller;
 
 import edu.uis.recitree.App;
 import edu.uis.recitree.exception.*;
-import edu.uis.recitree.model.Ingredient;
 import edu.uis.recitree.model.Recipe;
 import edu.uis.recitree.model.RecipeIngredient;
+import edu.uis.recitree.service.RecipeService;
 import edu.uis.recitree.service.RecipeServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,7 +64,7 @@ public class FavoritesController implements Initializable {
     private ObservableList<Recipe> recipes;
     private ObservableList<RecipeIngredient> ingredients;
 
-    private RecipeServiceImpl recipeService;
+    private RecipeService recipeService;
 
     /**
      * Loads the view for updating a recipe when editRecipeButton is clicked.

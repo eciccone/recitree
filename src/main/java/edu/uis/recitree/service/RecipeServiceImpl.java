@@ -18,13 +18,11 @@ import java.util.ArrayList;
  */
 public class RecipeServiceImpl implements RecipeService {
 
-    private IngredientDAO ingredientDAO;
     private RecipeDAO recipeDAO;
     private IngredientService ingredientService;
 
     public RecipeServiceImpl() {
         ingredientService = new IngredientServiceImpl();
-        ingredientDAO = new SQLiteIngredientDAO();
         recipeDAO = new SQLiteRecipeDAO();
     }
 

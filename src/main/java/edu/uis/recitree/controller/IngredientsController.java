@@ -2,12 +2,11 @@ package edu.uis.recitree.controller;
 
 import edu.uis.recitree.App;
 import edu.uis.recitree.exception.DeleteIngredientException;
-import edu.uis.recitree.exception.DeleteRecipeException;
 import edu.uis.recitree.exception.InvalidIDException;
 import edu.uis.recitree.exception.ReadAllIngredientsException;
 import edu.uis.recitree.model.Ingredient;
+import edu.uis.recitree.service.IngredientService;
 import edu.uis.recitree.service.IngredientServiceImpl;
-import edu.uis.recitree.service.RecipeServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,7 +42,7 @@ public class IngredientsController implements Initializable {
     private Button returnButton;
 
     private ObservableList<Ingredient> ingredients;
-    private IngredientServiceImpl ingredientService;
+    private IngredientService ingredientService;
 
     /**
      * When the removeIngredientButton is clicked it will delete the ingredient that is selected. If no ingredient is

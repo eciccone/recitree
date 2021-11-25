@@ -4,11 +4,11 @@ import edu.uis.recitree.App;
 import edu.uis.recitree.exception.SearchRecipeException;
 import edu.uis.recitree.model.Recipe;
 import edu.uis.recitree.model.RecipeIngredient;
+import edu.uis.recitree.service.RecipeService;
 import edu.uis.recitree.service.RecipeServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,7 +16,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -58,7 +57,7 @@ public class SearchController implements Initializable {
     @FXML
     private ListView<RecipeIngredient> recipeIngredientsListView;
 
-    private RecipeServiceImpl recipeService;
+    private RecipeService recipeService;
     private ObservableList ingredients;
     private ObservableList recipes;
 

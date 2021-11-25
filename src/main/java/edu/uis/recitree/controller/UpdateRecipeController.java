@@ -5,10 +5,11 @@ import edu.uis.recitree.exception.UpdateRecipeException;
 import edu.uis.recitree.model.Ingredient;
 import edu.uis.recitree.model.Recipe;
 import edu.uis.recitree.model.RecipeIngredient;
+import edu.uis.recitree.service.IngredientService;
 import edu.uis.recitree.service.IngredientServiceImpl;
+import edu.uis.recitree.service.RecipeService;
 import edu.uis.recitree.service.RecipeServiceImpl;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -55,8 +56,8 @@ public class UpdateRecipeController implements Initializable {
     private TextField ingredientUnitAmountTextField;
 
     private ObservableList<RecipeIngredient> recipeIngredients;
-    private RecipeServiceImpl recipeService;
-    private IngredientServiceImpl ingredientService;
+    private RecipeService recipeService;
+    private IngredientService ingredientService;
 
     private Recipe selectedRecipe;
 
