@@ -31,7 +31,7 @@ public class TagController implements Initializable {
     private ListView<String> tagsListView;
 
     @FXML
-    private ListView<Recipe> recipesListView;
+    private ListView<Recipe> recipeListView;
 
     @FXML
     private ListView<RecipeIngredient> recipeIngredientsListView;
@@ -87,8 +87,8 @@ public class TagController implements Initializable {
             fetchRecipesWithTag(selectedTag);
         });
 
-        recipesListView.setOnMouseClicked(mouseEvent -> {
-            Recipe selectedRecipe = recipesListView.getSelectionModel().getSelectedItem();
+        recipeListView.setOnMouseClicked(mouseEvent -> {
+            Recipe selectedRecipe = recipeListView.getSelectionModel().getSelectedItem();
 
             if (selectedRecipe == null) return;
 
@@ -96,7 +96,7 @@ public class TagController implements Initializable {
         });
 
         tagsListView.setItems(tags);
-        recipesListView.setItems(recipes);
+        recipeListView.setItems(recipes);
         recipeIngredientsListView.setItems(ingredients);
 
         fetchTags();
