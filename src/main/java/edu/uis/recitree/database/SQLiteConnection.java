@@ -149,6 +149,15 @@ public class SQLiteConnection {
         stmt.execute(FAVORITE_TABLE);
     }
 
+    /**
+     * Builds the tag table if it does not already exist with the following columns:
+     * tag_name, recipe_id
+     *
+     * (requirement 1.5.0)
+     *
+     * @param stmt The object used to execute the SQL statement for building the tag table in the database
+     * @throws SQLException Thrown if there is a problem creating the tag table
+     */
     private static void buildTagTable(Statement stmt) throws SQLException {
         stmt.execute(TAG_TABLE);
     }
