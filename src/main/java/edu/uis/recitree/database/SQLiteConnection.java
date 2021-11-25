@@ -48,7 +48,7 @@ public class SQLiteConnection {
             ");";
 
     private static final String TAG_TABLE =
-            "CREATE TABLE tag (" +
+            "CREATE TABLE IF NOT EXISTS tag (" +
                 "tag_name TEXT NOT NULL," +
                 "recipe_id INTEGER NOT NULL," +
                 "FOREIGN KEY(recipe_id) REFERENCES recipe(id) ON DELETE CASCADE," +
@@ -91,6 +91,7 @@ public class SQLiteConnection {
             buildIngredientTable(stmt);
             buildRecipeIngredientTable(stmt);
             buildFavoriteTable(stmt);
+            buildTagTable(stmt);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -146,5 +147,9 @@ public class SQLiteConnection {
      */
     private static void buildFavoriteTable(Statement stmt) throws SQLException {
         stmt.execute(FAVORITE_TABLE);
+    }
+
+    private static void buildTagTable(Statement stmt) throws SQLException {
+        stmt.execute(TAG_TABLE);
     }
 }
