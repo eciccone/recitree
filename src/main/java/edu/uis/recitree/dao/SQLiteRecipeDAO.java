@@ -269,7 +269,7 @@ public class SQLiteRecipeDAO implements RecipeDAO {
     /**
      * Selects all the favorited recipes from the database.
      *
-     * (requirement 4.7.1)
+     * (requirement 4.7.2)
      *
      * @return An ArrayList of all the favorited recipes, null if a problem occured while getting all the favorite recipes
      */
