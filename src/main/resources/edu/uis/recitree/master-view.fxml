@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@master-view-stylesheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uis.recitree.controller.MasterViewController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@master-view-stylesheet.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uis.recitree.controller.MasterViewController">
    <children>
       <Button fx:id="recipesButton" layoutX="106.0" layoutY="172.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#navButtonClicked" prefHeight="256.0" prefWidth="256.0">
          <graphic>

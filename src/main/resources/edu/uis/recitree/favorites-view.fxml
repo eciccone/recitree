@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@master-view-stylesheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uis.recitree.controller.FavoritesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@master-view-stylesheet.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uis.recitree.controller.FavoritesController">
    <children>
       <Label layoutX="325.0" layoutY="53.0" prefHeight="45.0" prefWidth="150.0" text="FAVORITES">
          <font>

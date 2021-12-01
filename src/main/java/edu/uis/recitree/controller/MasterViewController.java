@@ -37,6 +37,8 @@ public class MasterViewController {
     /**
      * Determines which view to render when an option is chosen from the choice of navigation buttons.
      *
+     * (requirement 2.2.0)
+     *
      * @param event The button click ActionEvent
      * @throws IOException Thrown if there is an error when rendering a fxml file
      */

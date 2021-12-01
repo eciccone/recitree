@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uis.recitree.controller.UpdateRecipeController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.uis.recitree.controller.UpdateRecipeController">
    <children>
       <Label fx:id="recipeIdLabel" />
       <TextField fx:id="recipeNameTextField" promptText="Recipe name" />
